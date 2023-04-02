@@ -1,0 +1,30 @@
+
+:root{
+  --blue-color: #5783db;
+  --green-color: #55c2da;
+}
+.form {
+  max-width: 476px;
+  margin: auto;
+}
+.btn-logout{
+  background-color: var(--blue-color);
+}
+.btn-logout:hover{
+  background-color: var(--blue-color);
+}
+
+.main-button{
+  background-color: var(--green-color);
+  border: #fff;
+}
+.main-button:hover {
+  background-color: #4ec1db;
+  border: #fff;
+}
+.main-button:hover {
+  background-color: #098ba9;
+  border: #fff;
+}
+
+

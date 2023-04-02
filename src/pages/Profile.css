@@ -1,0 +1,59 @@
+.big-container__card {
+  background-color: rgba(240, 248, 255, 0.196);
+}
+.card-display {
+  transition: all 0.5s ease-in-out;
+}
+.card-img__content {
+  display: flex !important;
+  justify-content: space-around;
+  background-color: rgba(240, 248, 255, 0.603);
+  margin-top: .5rem
+}
+.published-ads {
+  margin: 0 1.5rem;
+}
+
+.dropdown-item{
+  cursor: pointer;
+  color: #000000b4;
+  background-color: rgba(240, 248, 255, 0.407);
+  transition: transform 0.4s ease-in-out;
+}
+.dropdown-item:hover {
+  color: #000;
+  transform: scale(1.009);
+}
+.dropdown-item:hover{
+  background-color: rgb(255, 255, 255) !important;
+}
+.btn-remove{
+  color: rgba(255, 0, 0, 0.559);
+}
+.btn-remove:hover {
+  color: rgba(247, 36, 36, 0.974);
+}
+@media (max-width: 600px) {
+  .card-img__content {
+    justify-content: center;
+    margin: 5rem auto
+  }
+  .published-ads {
+    position: absolute;
+    top: 20rem;
+  }
+  .user-name {
+    position: absolute;
+    margin-top: 10rem;
+    font-size: 21px;
+    font-weight: 300 !important;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  .card-img__content {
+    margin-top: 15rem;
+    margin-left: .75rem;
+  }
+}
+.profile-card{
+  margin-left: 0px;
+}

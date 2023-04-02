@@ -1,0 +1,15 @@
+.userImageNavBar{
+  display: flex;
+}
+@media (max-width: 767px) {
+  .userImageNavBar {
+    display: inline-block;
+  }
+  .userGreet{
+    display: none;
+  }
+}
+
+.btn-logout{
+  margin-top: 0.25rem !important;
+}

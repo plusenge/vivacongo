@@ -1,0 +1,271 @@
+:root {
+  --blue-color: #5783db;
+  --blue-color__hover: #366ad3;
+  --green-color: #4ec1db;
+  --green-color__hover: #209ab5;
+}
+.ad-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 1rem auto;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+
+}
+
+.card-image-container:hover {
+  transform: scale(1.03);
+}
+
+.card-image-container {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.card-img-top {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.card-text-water__mark {
+  position: relative;
+}
+
+.card-text-water__mark::after {
+  content: "VivaCongo";
+  position: absolute;
+  top: 45% !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 45px;
+  font-weight: bold;
+  color: #4880efd6;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.99);
+  opacity: 0.2;
+  letter-spacing: 2px;
+  margin-top: 35%;
+  font-family: 'Times New Roman', serif;
+}
+
+.card-body {
+  position: relative;
+  padding: 1rem;
+  /* height: 100%; */
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin-top: 1.5rem;
+
+}
+
+.card-category {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.card-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+
+.card-location,
+.card-city {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.location-icon {
+  margin-right: 0.25rem;
+}
+
+.card-price-date {
+  position: absolute;
+  top: 0;
+  width: 90%;
+  margin-top: -23px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  background-color: #f1f1f1;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  border: solid 2px #f1f1f1;
+  border-color: #eff1f1;
+  border-bottom-color: #f1f1f1;
+}
+
+.card-price-container {
+  display: flex;
+  align-items: center;
+}
+
+.card-price {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: var(--blue-color);
+}
+
+.card-date-container {
+  display: flex;
+  align-items: center;
+}
+
+.card-date {
+  font-size: 1rem;
+  color: #333;
+}
+
+.card-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #f1f1f1;
+  color: #333;
+  border: none;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 2rem;
+}
+
+.btn:hover {
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-text {
+  margin-left: 0.25rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-details,
+.card-footer {
+  color: #777;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.category-link {
+  text-decoration: none !important;
+}
+
+.category-link .card-category {
+  color: #209ab5 !important;
+}
+
+.category-link .card-category:hover {
+  text-decoration: underline;
+  color: #209ab5 !important;
+}
+
+.title-link {
+  text-decoration: none;
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
+.heart-fill{
+  color: #33acc7 !important;
+  cursor: pointer;
+}
+.heart-empty{
+  cursor: pointer;
+}
+
+@media (max-width: 1300px) {
+  .button-group {
+    display: block !important;
+    margin: .5rem 0;
+  }
+
+  .card-text-water__mark::after {
+    font-size: 28px;
+    margin-top: 50%;
+  }
+
+  .card-date {
+    display: none !important;
+  }
+
+  .card-location {
+    display: none !important;
+  }
+
+}
+
+@media (max-width: 1024px) {
+  .button-group {
+    display: block !important;
+    margin: .5rem 0;
+  }
+
+  .btn-details {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-location {
+    display: block;
+  }
+
+  .card-date {
+    display: block !important;
+  }
+
+  .card-location {
+    display: block !important;
+  }
+  
+}
+
+@media (max-width: 300px) {
+  .card-location {
+    display: none !important;
+  }
+
+  .card-date {
+    display: none !important;
+  }
+}

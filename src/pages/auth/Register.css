@@ -1,0 +1,86 @@
+.container-input input:focus,
+.container-input input:active {
+  outline: none !important;
+  box-shadow: none;
+  border-color: none !important;
+}
+
+.btn-register {
+  background-color: var(--green-color) !important;
+}
+
+.btn-register:hover,
+.btn-register:hover:active {
+  background-color: var(--blue-color);
+}
+
+.btn-register {
+  border: none;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 11px;
+}
+
+.logo-viva {
+  color: var(--blue-color);
+}
+
+.logo-soko {
+  color: var(--green-color);
+}
+
+/*successfull message displaying after account creationg*/
+.success-toast {
+  position: relative;
+  background-color: #000;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  padding: 15px;
+  border-radius: 45px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  border: solid 5px var(--green-color);
+}
+
+.success-toast:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  animation: pulse 1s ease-in-out infinite;
+  z-index: -1;
+}
+
+.success-toast:hover:before {
+  animation: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+/*====== eye button show and hide password =====*/
+.btn-togglePassword{
+  border: none;
+  background-color: none !important;
+  border: none;
+}
+.btn-togglePassword:hover{
+  background-color: var(--green-color);
+  position: relative;
+}
+
