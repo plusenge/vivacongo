@@ -1,48 +1,56 @@
-import React, {useEffect, useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
-import { db, auth} from "../firebaseConfig";
-import { Link } from "react-router-dom";
-import {FaEye } from "react-icons/fa";
+import { db, auth } from "../firebaseConfig";
+import { useHistory } from "react-router-dom";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import Moment from "react-moment";
 
 import "./AdCard.css";
 
-const AdCard = props => {
-    const [isFavorite, setIsFavorite] = useState(false);
+const AdCard = (props) => {
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
+  // const [isFavorite, setIsFavorite] = useState(false);
+  const [showLoginMessage, setShowLoginMessage] = useState(false);
 
-    const handleToggleFavorite = () => {
-      setIsFavorite(!isFavorite);
-    };
-     const [users, setUsers] = useState([]);
-     const { title, category, price, location, city, publishedAt } = props.ad;
-     const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
-
-     useEffect(() => {
-       const docRef = doc(db, "favorites", props.ad.id);
-       const unsub = onSnapshot(docRef, (querySnapshot) => {
-         const data = querySnapshot.data();
-         if (data && data.users) {
-           setUsers(data.users);
-         }
-       });
-       return () => unsub();
-     }, []);
-     console.log(users);
-    const toggleFavorite = async () => {
-      const isFav = users.includes(auth.currentUser.uid);
-      const favRef = doc(db, "favorites", props.ad.id);
-      if (isFav) {
-        // Remove the current user ID from the users array
-        const newUsers = users.filter((id) => id !== auth.currentUser.uid);
-        await updateDoc(favRef, { users: newUsers });
-      } else {
-        // Add the current user ID to the users array
-        const newUsers = users.concat(auth.currentUser.uid);
-        await setDoc(favRef, { users: newUsers });
+  const { title, category, price, location, city, publishedAt } = props.ad;
+  const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
+  useEffect(() => {
+    const docRef = doc(db, "favorites", props.ad.id);
+    const unsub = onSnapshot(docRef, (querySnapshot) => {
+      const data = querySnapshot.data();
+      if (data && data.users) {
+        setUsers(data.users);
       }
-    };
+    });
+    return () => unsub();
+  }, []);
+
+  // Show the login message and redirect to login page
+  const toggleFavorite = async () => {
+    if (!auth.currentUser) {
+      setShowLoginMessage(true);
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000); // Delay the redirection by 1 seconds
+      return;
+    }
+
+    const isFav = users.includes(auth.currentUser.uid);
+    const favRef = doc(db, "favorites", props.ad.id);
+    if (isFav) {
+      // Remove the current user ID from the users array
+      const newUsers = users.filter((id) => id !== auth.currentUser.uid);
+      await updateDoc(favRef, { users: newUsers });
+    } else {
+      // Add the current user ID to the users array
+      const newUsers = users.concat(auth.currentUser.uid);
+      await setDoc(favRef, { users: newUsers });
+    }
+  };
+
   // Extract the date from the publishedAt field
   let formattedDate = "";
   if (publishedAt) {
@@ -87,9 +95,22 @@ const AdCard = props => {
                 size={23}
                 onClick={toggleFavorite}
                 style={{ color: "#209ab5" }}
+                data-bs-toggle="tooltip"
+                data-bs-placement="top"
+                title="Save to favorites"
               />
             )}
           </p>
+
+          {/* Show the login message and redirect to login page*/}
+          {showLoginMessage && (
+            <span
+              className="alert-warning__favorite alert alert-warning text-bg-danger"
+              role="alert"
+            >
+              Please log in to add to your favorites.
+            </span>
+          )}
         </div>
         <div className="card-details">
           <div className="card-location">
@@ -120,7 +141,5 @@ const AdCard = props => {
       </div>
     </div>
   );
-}
+};
 export default AdCard;
-
-

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth, db } from "../../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc, Timestamp } from "firebase/firestore";
@@ -9,10 +9,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.css";
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Register.css";
 
 const Register = () => {
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  useEffect(() => {
+    // Delay the animation by 50ms
+    const timeout = setTimeout(() => {
+      setShowAnimation(true);
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, []);
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -155,138 +165,142 @@ const Register = () => {
   };
 
   return (
-    <form className="shadow rounded p-3 mt-5 form" onSubmit={handleSubmit}>
-      <h4 className="text-center mb-3 fw-bold">
-        <span style={{ color: "#5783db" }}>Viva</span>
-        <span style={{ color: "#55c2da" }}>Congo</span>
-      </h4>
-      <h5 className="mb-3">Create An Account</h5>
-      <hr />
+    <div className={`form-animation__header ${showAnimation ? "animate" : ""}`}>
+      <form className="shadow rounded p-3 mt-5 form" onSubmit={handleSubmit}>
+        <h4 className="text-center mb-3 fw-bold">
+          <span style={{ color: "#5783db" }}>Viva</span>
+          <span style={{ color: "#55c2da" }}>Congo</span>
+        </h4>
+        <h5 className="mb-3">Create An Account</h5>
+        <hr />
 
-      {/*=============== name input ==============*/}
-      <div className="mb-3 container-input">
-        <label htmlFor="name" className="form-label">
-          Name*
-        </label>
-        <input
-          type="text"
-          className={`form-control ${errors.name && "is-invalid"}`}
-          name="name"
-          value={name}
-          onChange={handleChange}
-        />
-        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
-      </div>
-
-      {/*=============== email input ==============*/}
-      <div className="mb-3 container-input">
-        <label htmlFor="email" className="form-label">
-          Email*
-        </label>
-
-        <input
-          type="email"
-          className={`form-control ${errors.email && "is-invalid"}`}
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-      </div>
-
-      {/*=============== password ==============*/}
-
-      <div className="mb-3 container-input">
-        <label
-          htmlFor="password"
-          className="form-label d-flex d-flex justify-content-between form-label "
-          style={{ height: "50px" }}
-        >
-          <p className="mt-4">Password*</p>
-          <button
-            className="btn btn-outline-secondary btn-togglePassword btn-eye"
-            type="button"
-            onClick={togglePasswordVisibility}
-          >
-            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-          </button>
-        </label>
-        <input
-          id="input-password"
-          type={showPassword ? "text" : "password"}
-          className={`form-control ${errors.password && "is-invalid"}`}
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
-        {errors.password && (
-          <div className="invalid-feedback">{errors.password}</div>
-        )}
-      </div>
-
-      {/*=============== confirm password ==============*/}
-
-      <div className="mb-3 container-input">
-        <label
-          htmlFor="confirmPassword"
-          className="d-flex justify-content-between form-label"
-          style={{ height: "50px" }}
-        >
-          <p className="mt-4">Confirm Password*</p>
-          <button
-            className="btn btn-outline-secondary btn-togglePassword "
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-          >
-            <span className="btn-eye">
-              <FontAwesomeIcon
-                icon={showConfirmPassword ? faEyeSlash : faEye}
-              />
-            </span>
-          </button>
-        </label>
-        <input
-          type={showConfirmPassword ? "text" : "password"}
-          className={`form-control ${errors.confirmPassword && "is-invalid"}`}
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={handleChange}
-        />
-        {errors.confirmPassword && (
-          <div className="invalid-feedback">{errors.confirmPassword}</div>
-        )}
-      </div>
-      {errors.firebase && (
-        <div className="alert alert-danger" role="alert">
-          {errors.firebase}
+        {/*=============== name input ==============*/}
+        <div className="mb-3 container-input">
+          <label htmlFor="name" className="form-label">
+            Name*
+          </label>
+          <input
+            type="text"
+            className={`form-control ${errors.name && "is-invalid"}`}
+            name="name"
+            value={name}
+            onChange={handleChange}
+          />
+          {errors.name && <div className="invalid-feedback">{errors.name}</div>}
         </div>
-      )}
 
-      {/*============ register button ==============*/}
-      <div className="text-center mb-3">
-        <button
-          className="btn d-flex justify-content-center text-light btn-secondary btn-sm btn-register w-100"
-          disabled={loading}
-        >
-          Create account
-        </button>
+        {/*=============== email input ==============*/}
+        <div className="mb-3 container-input">
+          <label htmlFor="email" className="form-label">
+            Email*
+          </label>
 
-        <small className="d-flex justify-content-between mt-3">
-          <Link
-            to="/auth/Login"
-            className="text-decoration-none fs-6 register-in__forgotPassword"
+          <input
+            type="email"
+            className={`form-control ${errors.email && "is-invalid"}`}
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <div className="invalid-feedback">{errors.email}</div>
+          )}
+        </div>
+
+        {/*=============== password ==============*/}
+
+        <div className="mb-3 container-input">
+          <label
+            htmlFor="password"
+            className="form-label d-flex d-flex justify-content-between form-label "
+            style={{ height: "50px" }}
           >
-            Login
-          </Link>
-          <Link
-            to="/auth/forgot-password"
-            className="text-decoration-none fs-6 forgot-password"
+            <p className="mt-4">Password*</p>
+            <button
+              className="btn btn-outline-secondary btn-togglePassword btn-eye"
+              type="button"
+              onClick={togglePasswordVisibility}
+            >
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+            </button>
+          </label>
+          <input
+            id="input-password"
+            type={showPassword ? "text" : "password"}
+            className={`form-control ${errors.password && "is-invalid"}`}
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <div className="invalid-feedback">{errors.password}</div>
+          )}
+        </div>
+
+        {/*=============== confirm password ==============*/}
+
+        <div className="mb-3 container-input">
+          <label
+            htmlFor="confirmPassword"
+            className="d-flex justify-content-between form-label"
+            style={{ height: "50px" }}
           >
-            Forgot Password
-          </Link>
-        </small>
-      </div>
-    </form>
+            <p className="mt-4">Confirm Password*</p>
+            <button
+              className="btn btn-outline-secondary btn-togglePassword "
+              type="button"
+              onClick={toggleConfirmPasswordVisibility}
+            >
+              <span className="btn-eye">
+                <FontAwesomeIcon
+                  icon={showConfirmPassword ? faEyeSlash : faEye}
+                />
+              </span>
+            </button>
+          </label>
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            className={`form-control ${errors.confirmPassword && "is-invalid"}`}
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleChange}
+          />
+          {errors.confirmPassword && (
+            <div className="invalid-feedback">{errors.confirmPassword}</div>
+          )}
+        </div>
+        {errors.firebase && (
+          <div className="alert alert-danger" role="alert">
+            {errors.firebase}
+          </div>
+        )}
+
+        {/*============ register button ==============*/}
+        <div className="text-center mb-3">
+          <button
+            className="btn d-flex justify-content-center text-light btn-secondary btn-sm btn-register w-100"
+            disabled={loading}
+          >
+            Create account
+          </button>
+
+          <small className="d-flex justify-content-between mt-3">
+            <Link
+              to="/auth/Login"
+              className="text-decoration-none fs-6 register-in__forgotPassword"
+            >
+              Login
+            </Link>
+            <Link
+              to="/auth/forgot-password"
+              className="text-decoration-none fs-6 forgot-password"
+            >
+              Forgot Password
+            </Link>
+          </small>
+        </div>
+      </form>
+    </div>
   );
 };
 export default Register;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth } from "../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
@@ -8,9 +8,19 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import "react-toastify/dist/ReactToastify.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
-import "./Login.css"
+import "./Login.css";
 
 const Login = () => {
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  useEffect(() => {
+    // Delay the animation by 50ms
+    const timeout = setTimeout(() => {
+      setShowAnimation(true);
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, []);
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -21,7 +31,6 @@ const Login = () => {
   const togglePasswordVisibility = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
-
   const navigate = useNavigate();
 
   const { email, password, loading, showPassword } = values;
@@ -57,11 +66,11 @@ const Login = () => {
     setValues({ ...values, loading: true });
 
     try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Logged in successfully");
       setValues({ email: "", password: "", loading: false });
@@ -79,7 +88,6 @@ const Login = () => {
         draggable: true,
         progress: undefined,
       });
-
     } catch (error) {
       console.error(error);
       if (
@@ -98,96 +106,102 @@ const Login = () => {
     }
   };
   return (
-    <form className="shadow rounded p-3 mt-5 form" onSubmit={handleSubmit}>
-      <h4 className="text-center mb-3 fw-bold">
-        <span style={{ color: "#5783db" }}>Viva</span>
-        <span style={{ color: "#55c2da" }}>Congo</span>
-      </h4>
-      <h5 className="mb-3">Login</h5>
-      <hr />
+    <div className="login-page">
+      <div
+        className={`form-animation__header ${showAnimation ? "animate" : ""}`}
+      >
+        <form className="shadow rounded p-3 mt-5 form" onSubmit={handleSubmit}>
+          <h4 className="text-center mb-3 fw-bold">
+            <span style={{ color: "#5783db" }}>Viva</span>
+            <span style={{ color: "#55c2da" }}>Congo</span>
+          </h4>
+          <h5 className="mb-3">Login</h5>
+          <hr />
 
-      {/*=============== email input ==============*/}
-      <div className="container-input">
-        <label htmlFor="email" className="form-label">
-          Email
-        </label>
+          {/*=============== email input ==============*/}
+          <div className="container-input">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
 
-        <input
-          type="email"
-          className={`form-control ${loginErrors.email && "is-invalid"}`}
-          name="email"
-          value={email}
-          onChange={handleChange}
-        />
-        {loginErrors.email && (
-          <div className="invalid-feedback">{loginErrors.email}</div>
-        )}
+            <input
+              type="email"
+              className={`form-control ${loginErrors.email && "is-invalid"}`}
+              name="email"
+              value={email}
+              onChange={handleChange}
+            />
+            {loginErrors.email && (
+              <div className="invalid-feedback">{loginErrors.email}</div>
+            )}
+          </div>
+
+          {/*=============== password ==============*/}
+
+          <div className="mb-3 container-input">
+            <label
+              htmlFor="password"
+              className="form-label d-flex justify-content-between"
+              style={{ height: "50px" }}
+            >
+              <p className="mt-4">Password</p>
+              <button
+                className="btn btn-outline-secondary btn-togglePassword "
+                type="button"
+                onClick={togglePasswordVisibility}
+              >
+                <span className="">
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                </span>
+              </button>
+            </label>
+            <input
+              id="input-password"
+              type={showPassword ? "text" : "password"}
+              className={`form-control ${loginErrors.password && "is-invalid"}`}
+              name="password"
+              value={password}
+              onChange={handleChange}
+            />
+            {loginErrors.password && (
+              <div className="invalid-feedback">{loginErrors.password}</div>
+            )}
+          </div>
+
+          {loginErrors.firebase && (
+            <div className="alert alert-danger" role="alert">
+              {loginErrors.firebase}
+            </div>
+          )}
+
+          {/*============ login button ==============*/}
+          <div className="text-center mb-3">
+            <button
+              className="btn btn-secondary btn-sm text-light d-flex justify-content-center text-center w-100 btn-register btn-login"
+              disabled={loading}
+            >
+              Login
+            </button>
+          </div>
+          <div className="text-center mb-3">
+            <small className="d-flex justify-content-between">
+              <Link
+                to="/auth/Register"
+                className="text-decoration-none fs-6 register-in__forgotPassword"
+              >
+                Register
+              </Link>
+              <Link
+                to="/auth/forgot-password"
+                className="text-decoration-none fs-6 forgot-password"
+              >
+                Forgot Password
+              </Link>
+            </small>
+          </div>
+        </form>
       </div>
-
-      {/*=============== password ==============*/}
-
-      <div className="mb-3 container-input">
-        <label
-          htmlFor="password"
-          className="form-label d-flex justify-content-between"
-          style={{ height: "50px" }}
-        >
-          <p className="mt-4">Password</p>
-          <button
-            className="btn btn-outline-secondary btn-togglePassword "
-            type="button"
-            onClick={togglePasswordVisibility}
-          >
-            <span className="">
-              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-            </span>
-          </button>
-        </label>
-        <input
-          id="input-password"
-          type={showPassword ? "text" : "password"}
-          className={`form-control ${loginErrors.password && "is-invalid"}`}
-          name="password"
-          value={password}
-          onChange={handleChange}
-        />
-        {loginErrors.password && (
-          <div className="invalid-feedback">{loginErrors.password}</div>
-        )}
-      </div>
-
-      {loginErrors.firebase && (
-        <div className="alert alert-danger" role="alert">
-          {loginErrors.firebase}
-        </div>
-      )}
-
-      {/*============ login button ==============*/}
-      <div className="text-center mb-3">
-        <button
-          className="btn btn-secondary btn-sm text-light d-flex justify-content-center text-center w-100 btn-register btn-login"
-          disabled={loading}
-        >
-          Login
-        </button>
-      </div>
-      <div className="text-center mb-3">
-        <small className="d-flex justify-content-between">
-          <Link
-            to="/auth/Register"
-            className="text-decoration-none fs-6 register-in__forgotPassword"
-          >
-            Register
-          </Link>
-          <Link
-            to="/auth/forgot-password"
-            className="text-decoration-none fs-6 forgot-password"
-          >
-            Forgot Password
-          </Link>
-        </small>
-      </div>
-    </form>
+    </div>
   );
-}
-export default Login
+};
+export default Login;

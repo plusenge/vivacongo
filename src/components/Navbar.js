@@ -20,8 +20,8 @@ const Navbar = () => {
     });
     //logout
     await signOut(auth);
-    //navigate to login
-    navigate("/auth/login");
+    //navigate to home page
+    navigate("/");
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-      <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -72,19 +72,20 @@ const Navbar = () => {
                   {user && (
                     <div className="d-flex align-items-center">
                       <span className=" me-2 userGreet">Hey {userName}! </span>
-                      <img
-                        src={
-                          userImage ||
-                          "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-                        }
-                        alt="User Profile"
-                        className="rounded-circle me-2"
-                        onError={handleImageError}
-                        style={{ width: "40px", height: "40px" }}
-                      />
+                      <Link to={`/profile/${user.uid}`}>
+                        <img
+                          src={
+                            userImage ||
+                            "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                          }
+                          alt="User Profile"
+                          className="rounded-circle me-2"
+                          onError={handleImageError}
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                      </Link>
                     </div>
                   )}
-
                   <Link className="nav-link" to={`/profile/${user.uid}`}>
                     Profile
                   </Link>

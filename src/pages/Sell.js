@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdAddCircle } from "react-icons/md";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -6,6 +6,7 @@ import { doc,addDoc, collection, setDoc, Timestamp } from "firebase/firestore";
 import { storage, db, auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "./Sell.css";
+import ShowAnimation from "./ShowAnimation";
 
 const categories = [
   {
@@ -77,6 +78,16 @@ const locations = [
 ];
 
 const Sell = () => {
+  const [showAnimation, setShowAnimation] = useState(false);
+
+  useEffect(() => {
+    // Delay the animation by 50ms
+    const timeout = setTimeout(() => {
+      setShowAnimation(true);
+    }, 50);
+    return () => clearTimeout(timeout);
+  }, []);
+
   const [errors, setErrors] = useState({
     title: "",
     category: "",
@@ -247,157 +258,180 @@ const Sell = () => {
   };
 
   return (
-    <form className="form shadow rounded p-3 mt-5" onSubmit={handleSubmit}>
-      <h3 className="text-center mb-3">Create An Ad</h3>
-      <div className="mb-3 text-center">
-        <label htmlFor="image">
-          <div
-            className="btn-upload__img main-button btn btn-sm text-light"
-            style={{ backgroundColor: "#55c2da", height: "45px", fontSize:"18px", fontWeight:"400" }}
-          >
-            <FaCloudUploadAlt size={30} /> Upload Image
-          </div>
-        </label>
-        <input
-          type="file"
-          id="image"
-          style={{ display: "none" }}
-          accept="image/*"
-          multiple
-          onChange={(e) => setValues({ ...values, images: e.target.files })}
-        />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Title</label>
-        <input
-          type="text"
-          className="form-control"
-          name="title"
-          value={title}
-          onChange={handleChange}
-        />
-        {errors.title && <div className="text-danger">{errors.title}</div>}
-      </div>
-      <select
-        name="category"
-        className="form-select select-red-color"
-        onChange={handleChange}
+    <>
+      <div
+        className={`form-animation__header ${showAnimation ? "animate" : ""}`}
       >
-        <option value="">Select Category</option>
-        {categories.map((category) => (
-          <option value={category.name} key={category.name} className="icons">
-            <h1>
-              {category.icon} {category.name}
-            </h1>
-          </option>
-        ))}
-      </select>
-
-      {values.category && (
-        <div className="mb-3">
-          <label className="form-label">Subcategory</label>
+        <form className="form shadow rounded p-3 mt-5" onSubmit={handleSubmit}>
+          <h3 className="text-center mb-3">Create An Ad</h3>
+          <div className="mb-3 text-center">
+            <label htmlFor="image">
+              <div
+                className="btn-upload__img main-button btn btn-sm text-light"
+                style={{
+                  backgroundColor: "#55c2da",
+                  height: "45px",
+                  fontSize: "18px",
+                  fontWeight: "400",
+                }}
+              >
+                <FaCloudUploadAlt size={30} /> Upload Image
+              </div>
+            </label>
+            <input
+              type="file"
+              id="image"
+              style={{ display: "none" }}
+              accept="image/*"
+              multiple
+              onChange={(e) => setValues({ ...values, images: e.target.files })}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              name="title"
+              value={title}
+              onChange={handleChange}
+            />
+            {errors.title && <div className="text-danger">{errors.title}</div>}
+          </div>
           <select
-            name="subcategory"
-            className="form-select"
+            name="category"
+            className="form-select select-red-color"
             onChange={handleChange}
-            value={values.subcategory}
           >
-            <option value="">Select Subcategory</option>
-            {categories
-              .find((category) => category.name === values.category)
-              .subcategories.map((subcategory) => (
-                <option value={subcategory} key={subcategory}>
-                  <span className="category-icon">{subcategory}</span>
-                </option>
-              ))}
+            <option value="">Select Category</option>
+            {categories.map((category) => (
+              <option
+                value={category.name}
+                key={category.name}
+                className="icons"
+              >
+                <h1>
+                  {category.icon} {category.name}
+                </h1>
+              </option>
+            ))}
           </select>
-          {errors.category && (
-            <div className="text-danger">{errors.subcategory}</div>
+
+          {values.category && (
+            <div className="mb-3">
+              <label className="form-label">Subcategory</label>
+              <select
+                name="subcategory"
+                className="form-select"
+                onChange={handleChange}
+                value={values.subcategory}
+              >
+                <option value="">Select Subcategory</option>
+                {categories
+                  .find((category) => category.name === values.category)
+                  .subcategories.map((subcategory) => (
+                    <option value={subcategory} key={subcategory}>
+                      <span className="category-icon">{subcategory}</span>
+                    </option>
+                  ))}
+              </select>
+              {errors.category && (
+                <div className="text-danger">{errors.subcategory}</div>
+              )}
+            </div>
           )}
-        </div>
-      )}
-      <div className="mb-3">
-        <label className="form-label">Price</label>
-        <input
-          type="number"
-          className="form-control"
-          name="price"
-          value={price}
-          onChange={handleChange}
-        />
-        {errors.category && <div className="text-danger">{errors.price}</div>}
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Location</label>
-        <select name="location" className="form-select" onChange={handleChange}>
-          <option value="">Select Province</option>
-          {locations.map((location) => (
-            <option value={location.province} key={location.province}>
-              {location.province}
-            </option>
-          ))}
-        </select>
-        {errors.category && (
-          <div className="text-danger">{errors.province}</div>
-        )}
-      </div>
-
-      {values.location && (
-        <div className="mb-3">
-          <label className="form-label">City</label>
-          <select
-            name="city"
-            className="form-select"
-            onChange={handleChange}
-            value={values.city}
-          >
-            <option value="">Select City</option>
-            {locations
-              .find((location) => location.province === values.location)
-              .cities.map((city) => (
-                <option value={city} key={city}>
-                  {city}
+          <div className="mb-3">
+            <label className="form-label">Price</label>
+            <input
+              type="number"
+              className="form-control"
+              name="price"
+              value={price}
+              onChange={handleChange}
+            />
+            {errors.category && (
+              <div className="text-danger">{errors.price}</div>
+            )}
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Location</label>
+            <select
+              name="location"
+              className="form-select"
+              onChange={handleChange}
+            >
+              <option value="">Select Province</option>
+              {locations.map((location) => (
+                <option value={location.province} key={location.province}>
+                  {location.province}
                 </option>
               ))}
-          </select>
-          {errors.category && <div className="text-danger">{errors.city}</div>}
-        </div>
-      )}
-      <div className="mb-3">
-        <label className="form-label">Contact</label>
-        <input
-          type="text"
-          className="form-control"
-          name="contact"
-          value={contact}
-          onChange={handleChange}
-        />
+            </select>
+            {errors.category && (
+              <div className="text-danger">{errors.province}</div>
+            )}
+          </div>
+
+          {values.location && (
+            <div className="mb-3">
+              <label className="form-label">City</label>
+              <select
+                name="city"
+                className="form-select"
+                onChange={handleChange}
+                value={values.city}
+              >
+                <option value="">Select City</option>
+                {locations
+                  .find((location) => location.province === values.location)
+                  .cities.map((city) => (
+                    <option value={city} key={city}>
+                      {city}
+                    </option>
+                  ))}
+              </select>
+              {errors.category && (
+                <div className="text-danger">{errors.city}</div>
+              )}
+            </div>
+          )}
+          <div className="mb-3">
+            <label className="form-label">Contact</label>
+            <input
+              type="text"
+              className="form-control"
+              name="contact"
+              value={contact}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Description</label>
+            <textarea
+              name="description"
+              cols="30"
+              rows="3"
+              className="form-control"
+              value={description}
+              onChange={handleChange}
+            ></textarea>
+            {errors.category && (
+              <div className="text-danger">{errors.description}</div>
+            )}
+          </div>
+          {error ? <p className="text-center text-danger">{error}</p> : null}
+          <div className="mb-3 text-center d-flex justify-content-center ">
+            <button
+              className="create-btn main-button btn-sm px-3 text-light rounded"
+              disabled={loading}
+              style={{ height: "45px", fontSize: "17px" }}
+            >
+              <MdAddCircle size={30} /> Create
+            </button>
+          </div>
+        </form>
       </div>
-      <div className="mb-3">
-        <label className="form-label">Description</label>
-        <textarea
-          name="description"
-          cols="30"
-          rows="3"
-          className="form-control"
-          value={description}
-          onChange={handleChange}
-        ></textarea>
-        {errors.category && (
-          <div className="text-danger">{errors.description}</div>
-        )}
-      </div>
-      {error ? <p className="text-center text-danger">{error}</p> : null}
-      <div className="mb-3 text-center d-flex justify-content-center ">
-        <button
-          className="create-btn main-button btn-sm px-3 text-light rounded"
-          disabled={loading}
-          style={{ height: "45px", fontSize: "17px" }}
-        >
-          <MdAddCircle size={30} /> Create
-        </button>
-      </div>
-    </form>
+    </>
   );
 };
 
