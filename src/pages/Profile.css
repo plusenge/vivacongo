@@ -33,7 +33,8 @@
 .btn-remove:hover {
   color: rgba(247, 36, 36, 0.974);
 }
-@media (max-width: 600px) {
+
+ @media (max-width: 600px) {
   .card-img__content {
     justify-content: center;
     margin: 5rem auto
@@ -57,3 +58,15 @@
 .profile-card{
   margin-left: 0px;
 }
+ @media (max-width:1300px) {
+  .card-img__content{}
+  .single-card {
+      width: 50%;
+    }
+ }
+ @media (max-width:600px){
+  .single-card {
+      width: 100%;
+    }
+ }
+

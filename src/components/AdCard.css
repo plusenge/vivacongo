@@ -65,7 +65,6 @@
   font-weight: bold;
   margin-bottom: 0.5rem;
   margin-top: 1.5rem;
-
 }
 
 .card-category {
@@ -126,10 +125,11 @@
 .card-date-container {
   display: flex;
   align-items: center;
-}
+} 
 
-.card-date {
+ .card-date {
   font-size: 1rem;
+  text-decoration: none !important;
   color: #333;
 }
 
@@ -222,7 +222,7 @@
   }
 
   .card-date {
-    display: none !important;
+    /* display: none !important; */
   }
 
   .card-location {
@@ -262,10 +262,6 @@
 
 @media (max-width: 300px) {
   .card-location {
-    display: none !important;
-  }
-
-  .card-date {
     display: none !important;
   }
 }

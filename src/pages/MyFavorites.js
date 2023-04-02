@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import AdCard from "../components/AdCard";
+import "./MyFavorites.css";
 
 const MyFavorites = () => {
   const [ads, setAds] = useState([]);
@@ -42,10 +43,13 @@ const MyFavorites = () => {
   return (
     <div className="mt-5 container">
       {ads.length ? <h3>Favorite Ads...</h3> : <h3>No Favorite Ads...</h3>}
-      <div className="row">
+      <div className="row card-img__content">
         {ads.map((ad) => (
-          <div key={ad.id} className="col-sm-6 col-md-3 mb-3">
-            <AdCard ad={ad} />
+          <div
+            className="col-sm-6 col-md-4 col-xl-3 mb-3 single-card__favorite"
+            key={ad.id}
+          >
+            <AdCard ad={ad} className="background-image_photo" />
           </div>
         ))}
       </div>

@@ -265,14 +265,13 @@ const Profile = () => {
             <h4>No ads from this user...</h4>
           )}
 
-          <div className="d-flex justify-content-between flex-wrap card-img__content">
-            {ads?.map((ad) => (
+          <div className="row card-img__content">
+            {ads.map((ad) => (
               <div
+                className="col-sm-6 col-md-4 col-xl-3 mb-3 single-card"
                 key={ad.id}
-                className="profile-card justify-content-center col-lg-5 col-md-6 col-sm-12 mb-3"
-                style={{ margin: "0 auto" }}
               >
-                <AdCard ad={ad} className="mb-3 background-image_photo" />
+                <AdCard ad={ad} className="background-image_photo" />
               </div>
             ))}
           </div>

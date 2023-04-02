@@ -1,0 +1,6 @@
+
+@media (max-width:600px) {
+  .single-card__favorite:first-of-type {
+    margin-top: -13rem;
+  }
+}

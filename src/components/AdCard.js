@@ -105,10 +105,12 @@ const AdCard = props => {
             <div className="card-price">${price}</div>
           </div>
           <div className="card-date-container">
-            <div className="card-date">
-              <Link to={adLink}>
-                <p className="card-text">
-                  <Moment fromNow>{props.ad.publishedAt.toDate()}</Moment>
+            <div>
+              <Link to={adLink} className="card-date">
+                <p className="card-text card-date">
+                  <Moment fromNow className="text-sucess">
+                    {props.ad.publishedAt.toDate()}
+                  </Moment>
                   <br />
                 </p>
               </Link>
