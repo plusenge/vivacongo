@@ -5,16 +5,16 @@
 .subcategory-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 20px;
-
+  margin-top: -20px;
 }
 
 .filter-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: center;
+  align-items: center;
 }
 
 .filter-input__category {
@@ -61,5 +61,21 @@ select:focus {
 
 .display-category__name {
   color: #333;
+}
+
+.sortyBy_price{
+  width: 300px;
   font-size: 19px;
+}
+
+@media (max-width:600px) {
+  .filter-container {
+      margin-top: 10px;
+      justify-content: flex-start;
+    }
+    .sortyBy_price{
+      display: flex;
+      flex-direction: column;
+    }
+    .sortBy-price__container{}
 }

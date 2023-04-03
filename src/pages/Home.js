@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import FilterByCategory from "./FilterByCategory"
 
 
+
 const Home = () => {
   const [ads, setAds] = useState([]);
   const { user } = useContext(AuthContext);
 
   const getAds = async () => {
+ 
     const adsRef = collection(db, "ads");
     const q = query(adsRef, orderBy("publishedAt", "desc"), limit(8));
     const adDocs = await getDocs(q);
@@ -36,7 +38,7 @@ const Home = () => {
 
   return (
     <div className="mt-5 container">
-      <FilterByCategory/>
+      <FilterByCategory />
       <h3 className="mt-3 mb-0">Recent Listings...</h3>
       <div className="row">
         {ads.map((ad) => (
