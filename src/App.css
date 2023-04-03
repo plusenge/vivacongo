@@ -38,3 +38,11 @@
   opacity: 1;
   transform: scale(1);
 }
+
+input:focus, 
+select:focus,
+input:active,
+select:active{
+  outline: none !important;
+  box-shadow: none !important;
+}
