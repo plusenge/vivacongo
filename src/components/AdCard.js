@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
@@ -79,26 +78,20 @@ const AdCard = (props) => {
             No Image
           </div>
         )}
-      </Link>
-      {" "}
+      </Link>{" "}
       <div className="card-body">
         {" "}
         <div className="button-group d-flex">
           {" "}
           <Link to={adLink} className="card-title title-link">
-            {title}
-          {" "}
-          </Link>
-          {" "}
-        </div>
-        {" "}
+            {title}{" "}
+          </Link>{" "}
+        </div>{" "}
         <div className="card-category-heart d-flex justify-content-between align-content-center">
           {" "}
           <Link to={adLink} className="category-link">
-            <p className="card-category">{category}</p>
-            {" "}
-          </Link>
-          {" "}
+            <p className="card-category">{category}</p>{" "}
+          </Link>{" "}
           <p className="heart">
             {" "}
             {users?.includes(auth.currentUser?.uid) ? (
@@ -159,4 +152,3 @@ const AdCard = (props) => {
   );
 };
 export default AdCard;
-
