@@ -1,3 +1,4 @@
+
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
@@ -63,26 +64,43 @@ const AdCard = (props) => {
   return (
     <div className="card ad-card ad-card-container">
       <Link to={adLink} className="card-image-container">
-        <img
-          src={props.ad.images[0].url}
-          className="card-img-top"
-          alt={title}
-        />
-        <div className="card-text-water__mark"></div>
+        {props.ad.images && props.ad.images[0] && props.ad.images[0].url ? (
+          <img
+            src={props.ad.images[0].url}
+            alt={props.ad.title}
+            className="card-img-top"
+            style={{ width: "100%", height: "200px" }}
+          />
+        ) : (
+          <div
+            className="card-img-top"
+            style={{ width: "100%", height: "200px" }}
+          >
+            No Image
+          </div>
+        )}
       </Link>
-
+      {" "}
       <div className="card-body">
+        {" "}
         <div className="button-group d-flex">
+          {" "}
           <Link to={adLink} className="card-title title-link">
             {title}
+          {" "}
           </Link>
+          {" "}
         </div>
+        {" "}
         <div className="card-category-heart d-flex justify-content-between align-content-center">
+          {" "}
           <Link to={adLink} className="category-link">
             <p className="card-category">{category}</p>
+            {" "}
           </Link>
-
+          {" "}
           <p className="heart">
+            {" "}
             {users?.includes(auth.currentUser?.uid) ? (
               <BsFillHeartFill
                 className="heart heart-fill"
@@ -101,7 +119,6 @@ const AdCard = (props) => {
               />
             )}
           </p>
-
           {/* Show the login message and redirect to login page*/}
           {showLoginMessage && (
             <span
@@ -120,7 +137,6 @@ const AdCard = (props) => {
             <span className="location-icon">&#x1f5fa;</span> {city}
           </div>
         </div>
-
         <div className="card-price-date">
           <div className="card-price-container">
             <div className="card-price">${price}</div>
@@ -143,3 +159,4 @@ const AdCard = (props) => {
   );
 };
 export default AdCard;
+

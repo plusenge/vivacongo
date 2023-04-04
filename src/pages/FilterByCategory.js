@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import "./FilterByCategory.css";
 
@@ -37,7 +38,7 @@ const categories = [
 ];
 
 const FilterByCategory = () => {
-  const [sort, setSort] = useState("")
+  const [sort, setSort] = useState("");
   // State variables for the selected category and subcategory
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
@@ -83,13 +84,12 @@ const FilterByCategory = () => {
               value={selectedCategory}
               onChange={handleCategoryChange}
             >
-    
-                <option value="">All</option>
-                {categories.map((category, index) => (
-                  <option key={index} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
+              <option value="">All</option>
+              {categories.map((category, index) => (
+                <option key={index} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -129,3 +129,5 @@ const FilterByCategory = () => {
 };
 
 export default FilterByCategory;
+
+
