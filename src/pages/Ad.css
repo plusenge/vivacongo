@@ -1,0 +1,75 @@
+.card-text-water__mark::after{
+  bottom: 50%;
+  font-size: 40px;
+  opacity: .12;
+}
+
+
+
+#carouselExample {
+  position: relative;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 40px;
+  width: 40px;
+}
+
+.small-image {
+  display: inline-block;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.small-image img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.small-image.active img {
+  border-color: #007bff;
+}
+
+.ad-description hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+
+
+
+.small-image {
+  margin: 0 5px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.small-image:hover,
+.small-image.active {
+  opacity: 1;
+}
+
+
+
+.img-loaded {
+  opacity: 1;
+}
+ @media (max-width:600px) {
+.card-text-water__mark::after {
+    bottom: 40%;
+    font-size: 35px;
+    opacity: .12;
+  }
+ }

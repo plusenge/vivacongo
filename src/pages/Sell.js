@@ -415,10 +415,14 @@ const Sell = () => {
               value={description}
               onChange={handleChange}
             ></textarea>
+
+         
+
             {errors.category && (
               <div className="text-danger">{errors.description}</div>
             )}
           </div>
+
           {error ? <p className="text-center text-danger">{error}</p> : null}
           <div className="mb-3 text-center d-flex justify-content-center ">
             <button

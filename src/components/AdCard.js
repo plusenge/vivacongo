@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
-import { useHistory } from "react-router-dom";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import Moment from "react-moment";
-
 import "./AdCard.css";
 
 const AdCard = (props) => {
@@ -62,7 +60,7 @@ const AdCard = (props) => {
 
   return (
     <div className="card ad-card ad-card-container">
-      <Link to={adLink} className="card-image-container">
+      <Link to={adLink} className="card-image-container card-text-water__mark">
         {props.ad.images && props.ad.images[0] && props.ad.images[0].url ? (
           <img
             src={props.ad.images[0].url}

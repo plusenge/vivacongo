@@ -12,7 +12,6 @@
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
   border-radius: 0.5rem;
   overflow: hidden;
-
 }
 
 .card-image-container:hover {
@@ -42,37 +41,30 @@
 .card-text-water__mark::after {
   content: "VivaCongo";
   position: absolute;
-  top: 45% !important;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 45px;
+  font-size: 40px;
   font-weight: bold;
-  color: #4880efd6;
-  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.99);
-  opacity: 0.2;
+  color: #000000;
+  text-shadow: 2px 2px 0px rgb(249, 249, 249);
+  opacity: 0.15;
   letter-spacing: 2px;
   margin-top: 35%;
-  font-family: 'Times New Roman', serif;
+    font-family: 'Brocklyn', sans-serif;
 }
 
 .card-body {
   position: relative;
   padding: 1rem;
-  /* height: 100%; */
+  line-height: 1.2;
 }
 
 .card-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
-  margin-top: 1.5rem;
+  margin-top: .5rem;
 }
 
-.card-category {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
 
 .card-details {
   display: flex;
@@ -88,6 +80,7 @@
   display: flex;
   align-items: center;
   color: #333;
+  margin-top:-.75rem
 }
 
 .location-icon {
@@ -98,18 +91,17 @@
   position: absolute;
   top: 0;
   width: 90%;
-  margin-top: -23px;
+  margin-top: -20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
   background-color: #f1f1f1;
   padding: 0.35rem;
   border-radius: 0.5rem;
-  border: solid 2px #f1f1f1;
+  border: solid 1.5px #f1f1f1;
   border-color: #eff1f1;
-  border-bottom-color: #f1f1f1;
+  border-top-color: #79a5e8;
 }
 
 .card-price-container {
@@ -118,7 +110,7 @@
 }
 
 .card-price {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: var(--blue-color);
 }
@@ -179,7 +171,6 @@
 .card-footer {
   color: #777;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
 }
 
 .category-link {
@@ -293,6 +284,9 @@
     height: 45px !important;
 
   }
+ .card-text-water__mark::after {
+          bottom:35%
+        }
 
 }
 
