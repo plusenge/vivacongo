@@ -42,11 +42,11 @@ const Ad = () => {
       <div className="mt-5 container">
         <div className="row ">
           <div
-            id="carouselExample"
+            id="carousselDetail"
             className=" carousel slide col-md-8 d-flex flex-md-row flex-column justify-content-between"
             style={{ width: "80%", margin: "0 auto" }}
           >
-            <div className="carousel-inner" style={{ height: "410px" }}>
+            <div className="carousel-inner " style={{ height: "410px" }}>
               {images.map((image, i) => (
                 <div
                   className={`carousel-item card-text-water__mark ${
@@ -69,7 +69,7 @@ const Ad = () => {
                   <button
                     className="carousel-control-prev"
                     type="button"
-                    data-bs-target="#carouselExample"
+                    data-bs-target="#carousselDetail"
                     data-bs-slide="prev"
                     onClick={() => setIdx(i)}
                   >
@@ -82,7 +82,7 @@ const Ad = () => {
                   <button
                     className="carousel-control-next"
                     type="button"
-                    data-bs-target="#carouselExample"
+                    data-bs-target="#carousselDetail"
                     data-bs-slide="next"
                     onClick={() => setIdx(i)}
                   >
@@ -96,10 +96,10 @@ const Ad = () => {
               ))}
             </div>
 
-            <div className="col-md-4 mx-md-4">
+            <div className="col-md-4 mx-md-4 card-container__content">
               <div className="card">
-                <div className="card-body">
-                  <div className="d-flex justify-content-between align-items-center">
+                <div className="card-body ">
+                  <div className="d-flex justify-content-between align-items-center border-0">
                     <h5 className="card-title">
                       ${Number(ad.price).toLocaleString()}
                     </h5>
@@ -142,14 +142,17 @@ const Ad = () => {
             </div>
           )}
         </div>
-        <div className="mt-5" style={{ width: "80%", margin: "0 auto" }}>
-          <h3>Description:</h3>
-          <p style={{ maxWidth: "700px", wordWrap: "break-word" }}>
-            {ad.description}
-          </p>
+          <div
+            className="mt-5 container-carousselDetail"
+            style={{ width: "80%", margin: "0 auto" }}
+          >
+            <h3>Description:</h3>
+            <p style={{ maxWidth: "700px", wordWrap: "break-word" }}>
+              {ad.description}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
   ) : null;
 }
 export default Ad;

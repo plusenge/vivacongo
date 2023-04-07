@@ -13,7 +13,8 @@ const AdCard = (props) => {
   // const [isFavorite, setIsFavorite] = useState(false);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
 
-  const { title, category, price, location, city, publishedAt } = props.ad;
+  const { title, category, subcategory, price, location, city, publishedAt } =
+    props.ad;
   const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
   useEffect(() => {
     const docRef = doc(db, "favorites", props.ad.id);
@@ -90,12 +91,15 @@ const AdCard = (props) => {
           <Link to={adLink} className="category-link">
             <p className="card-category">{category}</p>{" "}
           </Link>{" "}
+          <Link to={adLink} className="category-link">
+            <p className="card-category">{subcategory}</p>{" "}
+          </Link>{" "}
           <p className="heart">
             {" "}
             {users?.includes(auth.currentUser?.uid) ? (
               <BsFillHeartFill
                 className="heart heart-fill"
-                size={23}
+                size={20}
                 onClick={toggleFavorite}
               />
             ) : (
