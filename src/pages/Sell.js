@@ -7,19 +7,17 @@ import { storage, db, auth } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import "./Sell.css";
 import ShowAnimation from "./ShowAnimation";
+import { MdClose } from "react-icons/md";
+
 
 const categories = [
   {
-    name: "👶 Babies & Kids Goods",
-    subcategories: ["Baby Gear", "Toys & Games", "Clothing & Shoes"],
+    name: "👶 Babies",
+    subcategories: ["Baby Gear", "Toys", "Clothing"],
   },
   {
-    name: "🏢 Commercial Equipment",
-    subcategories: [
-      "Restaurant & Food Service",
-      "Retail & Services",
-      "Industrial & Construction",
-    ],
+    name: "🏢 Comm-Equip",
+    subcategories: ["Restaurant", "Services", "Construction"],
   },
   {
     name: "👗 Fashion",
@@ -27,21 +25,18 @@ const categories = [
   },
   {
     name: "🏠 Property",
-    subcategories: ["For Rent", "For Sale", "Land & Plots"],
+    subcategories: ["For Rent", "For Sale", "Land/Plots"],
   },
   {
     name: "📱 Electronics",
-    subcategories: [
-      "Mobile Phones",
-      "Computers & Laptops",
-      "TV, Audio & Video",
-    ],
+    subcategories: ["Mobile", "Computers", "TV,Video..."],
   },
   {
     name: "🚗 Vehicle",
-    subcategories: ["Cars", "Motorcycles", "Commercial & Other Vehicles"],
+    subcategories: ["Cars", "Motorcycles", "Other Vehicles"],
   },
 ];
+
 
 const locations = [
   {
@@ -79,6 +74,14 @@ const locations = [
 
 const Sell = () => {
   const [showAnimation, setShowAnimation] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
+
+  const handleDeleteImage = (index) => {
+    const newImages = [...uploadedImages];
+    newImages.splice(index, 1);
+    setUploadedImages(newImages);
+  };
+
 
   useEffect(() => {
     // Delay the animation by 50ms
@@ -286,6 +289,26 @@ const Sell = () => {
               multiple
               onChange={(e) => setValues({ ...values, images: e.target.files })}
             />
+
+            <div className="d-flex flex-wrap mt-3">
+              {images &&
+                Array.from(images).map((file, index) => (
+                  <div key={index} className="me-2 mb-2 position-relative">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt=""
+                      className="img-thumbnail"
+                      width="100"
+                      height="100"
+                    />
+                    {/* <MdClose
+                      className="delete-icon"
+                    /> */}
+                  </div>
+                ))}
+            </div>
+
+            {/*End previewImages before uploading*/}
           </div>
           <div className="mb-3">
             <label className="form-label">Title</label>
@@ -416,8 +439,6 @@ const Sell = () => {
               onChange={handleChange}
             ></textarea>
 
-         
-
             {errors.category && (
               <div className="text-danger">{errors.description}</div>
             )}
@@ -440,3 +461,5 @@ const Sell = () => {
 };
 
 export default Sell;
+
+

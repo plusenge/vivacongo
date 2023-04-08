@@ -10,20 +10,22 @@ import {
 import { db } from "../firebaseConfig";
 import AdCard from "../components/AdCard";
 import { AuthContext } from "../context/auth";
-import { Link, Navigate } from "react-router-dom";
-import "./Home.css"
+import { Link } from "react-router-dom";
+import "./Home.css";
+import Footer from "./Footer";
+import Welcome from "../components/Welcome";
 
 const categories = [
   {
-    name: "👶 Babies & Kids Goods",
-    subcategories: ["Baby Gear", "Toys & Games", "Clothing & Shoes"],
+    name: "👶 Babies",
+    subcategories: ["Baby Gear", "Toys", "Clothing"],
   },
   {
-    name: "🏢 Commercial Equipment",
+    name: "🏢 Comm-Equip",
     subcategories: [
-      "Restaurant & Food Service",
-      "Retail & Services",
-      "Industrial & Construction",
+      "Restaurant",
+      "Services",
+      "Construction",
     ],
   },
   {
@@ -32,19 +34,19 @@ const categories = [
   },
   {
     name: "🏠 Property",
-    subcategories: ["For Rent", "For Sale", "Land & Plots"],
+    subcategories: ["For Rent", "For Sale", "Land/Plots"],
   },
   {
     name: "📱 Electronics",
     subcategories: [
-      "Mobile Phones",
-      "Computers & Laptops",
-      "TV, Audio & Video",
+      "Mobile",
+      "Computers",
+      "TV,Video...",
     ],
   },
   {
     name: "🚗 Vehicle",
-    subcategories: ["Cars", "Motorcycles", "Commercial & Other Vehicles"],
+    subcategories: ["Cars", "Motorcycles", "Other Vehicles"],
   },
 ];
 
@@ -124,8 +126,13 @@ const Home = () => {
     setSelectedCategory("");
     setSelectedSubcategory("");
   };
+
   return (
     <div className="mt-5 container category-container">
+
+
+    
+
       <div
         className="d-flex justify-content-center justify-content-md-between flex-wrap filter-container p-3"
         style={{ backgroundColor: "aliceblue" }}
@@ -142,8 +149,6 @@ const Home = () => {
             <option value="low">Price</option>
           </select>
         </div>
-
-     
 
         <div className="d-flex justify-content-center justify-content-md-between flex-wrap ">
           <div>
@@ -198,10 +203,13 @@ const Home = () => {
             )}
           </div>
 
-         {selectedPrice || selectedCategory || selectedSubCategory ? (
+          {selectedPrice || selectedCategory || selectedSubCategory ? (
             <div className="remove-all-container">
-              <button className="btn btn-danger" onClick={handleRemoveAllClick}>
-                Remove All
+              <button
+                className="btn remove-all_filter"
+                onClick={handleRemoveAllClick}
+              >
+                <span className="text-danger mx-1 fs-5">X</span>Remove All
               </button>
             </div>
           ) : (
@@ -209,14 +217,27 @@ const Home = () => {
           )}
         </div>
       </div>
-      <h3 className="mt-3 mb-0">Recent Listings...</h3>
-      <div className="row">
-        {ads.map((ad) => (
-          <div className="col-sm-6 col-md-4 col-xl-3 mb-3" key={ad.id}>
-            <AdCard ad={ad} onFavoriteClick={handleFavoriteClick} />
-          </div>
-        ))}
-      </div>
+      <h4 className="mt-3 mb-0">Recent Listings...</h4>
+      {ads.length > 0 ? (
+        <div className="row">
+          {ads.map((ad) => (
+            <div className="col-sm-6 col-md-4 col-xl-3 mb-3" key={ad.id}>
+              <AdCard ad={ad} onFavoriteClick={handleFavoriteClick} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="p-3 mt-3" style={{ backgroundColor: "#f8d7da" }}>
+          <h5>Sorry, we could not find any results for your search...</h5>
+          <span>Following tips might help you to get better results</span>
+          <ul>
+            <li>Use more general keywords</li>
+            <li>Check spelling of position</li>
+            <li>Reduce filters, use less of them</li>
+          </ul>
+        </div>
+      )}
+      <Footer />
     </div>
   );
 };

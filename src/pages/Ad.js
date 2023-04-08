@@ -6,6 +6,8 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import Moment from "react-moment";
 import "../components/AdCard.css";
+import defaultImage from "../assets/images/no-photo.jpg";
+
 import "./Ad.css";
 
 const Ad = () => {
@@ -35,8 +37,18 @@ const Ad = () => {
     setIdx(0); // reset the main image index to 0
   };
 
-  // Get all images if "View More" is clicked
-  const images = showAllImages ? ad?.images : ad?.images.slice(0, 8) || [];
+  let images = ad?.images || [];
+  if (images.length === 0) {
+    images = [{ url: defaultImage }];
+  }
+  if (showAllImages) {
+    images = ad?.images || [];
+  } else {
+    images = images.slice(0, 8);
+  }
+
+  const mainImage = images[idx] || { url: defaultImage };
+
   return ad ? (
     <div>
       <div className="mt-5 container">
@@ -55,9 +67,9 @@ const Ad = () => {
                   key={i}
                 >
                   <img
-                    src={image.url}
-                    className="d-block w-100"
+                    src={image.url || defaultImage}
                     alt={ad.title}
+                    className="d-block w-100"
                     style={{
                       width: "100%",
                       height: "400px",
@@ -142,19 +154,17 @@ const Ad = () => {
             </div>
           )}
         </div>
-          <div
-            className="mt-5 container-carousselDetail"
-            style={{ width: "80%", margin: "0 auto" }}
-          >
-            <h3>Description:</h3>
-            <p style={{ maxWidth: "700px", wordWrap: "break-word" }}>
-              {ad.description}
-            </p>
-          </div>
+        <div
+          className="mt-5 container-carousselDetail"
+          style={{ width: "80%", margin: "0 auto" }}
+        >
+          <h3>Description:</h3>
+          <p style={{ maxWidth: "700px", wordWrap: "break-word" }}>
+            {ad.description}
+          </p>
         </div>
       </div>
+    </div>
   ) : null;
-}
+};
 export default Ad;
-
-

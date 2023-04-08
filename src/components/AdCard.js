@@ -5,6 +5,7 @@ import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import Moment from "react-moment";
+import defaultImage from "../assets/images/no-photo.jpg";
 import "./AdCard.css";
 
 const AdCard = (props) => {
@@ -59,9 +60,10 @@ const AdCard = (props) => {
     }
   }
 
+
   return (
     <div className="card ad-card ad-card-container">
-      <Link to={adLink} className="card-image-container card-text-water__mark">
+      <div className="position-relative">
         {props.ad.images && props.ad.images[0] && props.ad.images[0].url ? (
           <img
             src={props.ad.images[0].url}
@@ -74,7 +76,56 @@ const AdCard = (props) => {
             className="card-img-top"
             style={{ width: "100%", height: "200px" }}
           >
-            No Image
+            <img
+              src={defaultImage} // use the default image as the src
+              alt="No image available"
+              className="card-img-top"
+              style={{ width: "100%", height: "200px" }}
+            />
+          </div>
+        )}
+        <p className="heart position-absolute">
+          {users?.includes(auth.currentUser?.uid) ? (
+            <BsFillHeartFill
+              className="heart heart-fill"
+              size={20}
+              onClick={toggleFavorite}
+            />
+          ) : (
+            <BsHeart
+              className="heart heart-empty"
+              size={23}
+              onClick={toggleFavorite}
+              style={{ color: "#209ab5" }}
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Save to favorites"
+            />
+          )}
+        </p>
+      </div>
+      <Link
+        to={adLink}
+        className="position-relative card-image-container card-text-water__mark"
+      >
+        {props.ad.images && props.ad.images[0] && props.ad.images[0].url ? (
+          <img
+            src={props.ad.images[0].url}
+            alt={props.ad.title}
+            className="card-img-top"
+            style={{ width: "100%", height: "200px" }}
+          />
+        ) : (
+          <div
+            className="card-img-top"
+            style={{ width: "100%", height: "200px" }}
+          >
+            <img
+              src={defaultImage} // use the default image as the src
+              alt="No image available"
+              className="card-img-top"
+              style={{ width: "100%", height: "200px" }}
+            />
           </div>
         )}
       </Link>{" "}
@@ -94,27 +145,6 @@ const AdCard = (props) => {
           <Link to={adLink} className="category-link">
             <p className="card-category">{subcategory}</p>{" "}
           </Link>{" "}
-          <p className="heart">
-            {" "}
-            {users?.includes(auth.currentUser?.uid) ? (
-              <BsFillHeartFill
-                className="heart heart-fill"
-                size={20}
-                onClick={toggleFavorite}
-              />
-            ) : (
-              <BsHeart
-                className="heart heart-empty"
-                size={23}
-                onClick={toggleFavorite}
-                style={{ color: "#209ab5" }}
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                title="Save to favorites"
-              />
-            )}
-          </p>
-          {/* Show the login message and redirect to login page*/}
           {showLoginMessage && (
             <span
               className="alert-warning__favorite alert alert-warning text-bg-danger"
@@ -154,3 +184,7 @@ const AdCard = (props) => {
   );
 };
 export default AdCard;
+
+
+
+

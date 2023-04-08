@@ -28,7 +28,6 @@ const monthAndYear = (date) =>
 
 const Profile = () => {
   const [showAnimation, setShowAnimation] = useState(false);
-
   useEffect(() => {
     // Delay the animation by 50ms
     const timeout = setTimeout(() => {
@@ -279,7 +278,7 @@ const Profile = () => {
             <div className="row card-img__content">
               {ads.map((ad) => (
                 <div
-                  className="col-sm-6 col-md-4 col-xl-3 mb-3 single-card"
+                  className="col-sm-6 col-md-4 col-xl-4 mb-3 single-card"
                   key={ad.id}
                 >
                   <AdCard ad={ad} className="background-image_photo" />
@@ -294,3 +293,5 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
