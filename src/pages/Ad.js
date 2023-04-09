@@ -7,7 +7,8 @@ import { FaTrashAlt } from "react-icons/fa";
 import Moment from "react-moment";
 import "../components/AdCard.css";
 import defaultImage from "../assets/images/no-photo.jpg";
-
+import useSnapshot from "../utils/useSnapshot";
+import fav from "../utils/fav"
 import "./Ad.css";
 
 const Ad = () => {
@@ -16,6 +17,9 @@ const Ad = () => {
   const [idx, setIdx] = useState(0);
   const [showAllImages, setShowAllImages] = useState(false);
   const [showBelowImages, setShowBelowImages] = useState(true);
+
+
+  const { users } = useSnapshot("favorites", id);
 
   const getAd = async () => {
     const docRef = doc(db, "ads", id);
@@ -46,11 +50,11 @@ const Ad = () => {
   } else {
     images = images.slice(0, 8);
   }
-
   const mainImage = images[idx] || { url: defaultImage };
 
   return ad ? (
     <div>
+      <useSnapshot />
       <div className="mt-5 container">
         <div className="row ">
           <div
@@ -115,7 +119,7 @@ const Ad = () => {
                     <h5 className="card-title">
                       ${Number(ad.price).toLocaleString()}
                     </h5>
-                    <AiOutlineHeart size={30} />
+                    {/* <AiOutlineHeart size={30} /> */}
                   </div>
                   <h6 className="card-subtitle mb-2">{ad.title}</h6>
                   <div className="d-flex justify-content-between">
@@ -125,7 +129,9 @@ const Ad = () => {
                         <Moment fromNow>{ad.publishedAt.toDate()}</Moment>
                       </small>
                     </p>
-                    <FaTrashAlt size={20} className="text-danger" />
+                    
+                    {/*Delete button */}
+                    {/* <FaTrashAlt size={20} className="text-danger" /> */}
                   </div>
                 </div>
               </div>
@@ -168,3 +174,5 @@ const Ad = () => {
   ) : null;
 };
 export default Ad;
+
+

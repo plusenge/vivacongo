@@ -1,32 +1,21 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
-import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import { BsFillHeartFill, BsHeart } from "react-icons/bs";
 import Moment from "react-moment";
 import defaultImage from "../assets/images/no-photo.jpg";
+import useSnapshot from "../utils/useSnapshot";
 import "./AdCard.css";
 
 const AdCard = (props) => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState([]);
-  // const [isFavorite, setIsFavorite] = useState(false);
   const [showLoginMessage, setShowLoginMessage] = useState(false);
 
-  const { title, category, subcategory, price, location, city, publishedAt } =
-    props.ad;
+  const { title, category, subcategory, price, location, city, publishedAt } =props.ad;
   const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
-  useEffect(() => {
-    const docRef = doc(db, "favorites", props.ad.id);
-    const unsub = onSnapshot(docRef, (querySnapshot) => {
-      const data = querySnapshot.data();
-      if (data && data.users) {
-        setUsers(data.users);
-      }
-    });
-    return () => unsub();
-  }, []);
+  const { users } = useSnapshot("favorites", props.ad.id)
 
   // Show the login message and redirect to login page
   const toggleFavorite = async () => {
@@ -37,7 +26,6 @@ const AdCard = (props) => {
       }, 1000); // Delay the redirection by 1 seconds
       return;
     }
-
     const isFav = users.includes(auth.currentUser.uid);
     const favRef = doc(db, "favorites", props.ad.id);
     if (isFav) {
@@ -59,7 +47,6 @@ const AdCard = (props) => {
       formattedDate = date.format("MMMM D, YYYY");
     }
   }
-
 
   return (
     <div className="card ad-card ad-card-container">
@@ -143,7 +130,7 @@ const AdCard = (props) => {
             <p className="card-category">{category}</p>{" "}
           </Link>{" "}
           <Link to={adLink} className="category-link">
-            <p className="card-category">{subcategory}</p>{" "}
+            <p className="card-category subcategory-name">{subcategory}</p>{" "}
           </Link>{" "}
           {showLoginMessage && (
             <span

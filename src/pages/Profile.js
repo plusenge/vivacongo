@@ -131,7 +131,7 @@ const Profile = () => {
   return user ? (
     <div className={`form-animation__header ${showAnimation ? "animate" : ""}`}>
       <div className="big-container__card row mt-5 container">
-        <div className="text-center col-sm-2 col-md-3 rounded-circle position-relative">
+        <div className="text-center col-sm-2 col-md-3 position-relative container-profile_image">
           <div
             className="background-image_photo background-img  position-absolute top-0 bottom-0 start-0 end-0 "
             style={{
@@ -259,12 +259,12 @@ const Profile = () => {
             }}
           >
             <span className="member-since ">
-              Member since{monthAndYear(user.createdAt.toDate())}
+              Member since {monthAndYear(user.createdAt.toDate())}
             </span>
           </p>
         </div>
         <div className="col-sm-10 col-md-9">
-          <h3 className="user-name mx-3 fw-bold">{user.name}</h3>
+          <h3 className="user-name mx-3">{user.name}</h3>
 
           {/*Horizontal line below user name*/}
           <hr />
@@ -274,7 +274,6 @@ const Profile = () => {
             ) : (
               <h4>No ads from this user...</h4>
             )}
-
             <div className="row card-img__content">
               {ads.map((ad) => (
                 <div
@@ -293,5 +292,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-

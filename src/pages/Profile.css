@@ -1,5 +1,6 @@
 .big-container__card {
   background-color: rgba(240, 248, 255, 0.196);
+  margin: 0 auto;
 }
 
 .card-display {
@@ -11,6 +12,10 @@
   justify-content: space-around;
   background-color: rgba(240, 248, 255, 0.603);
   margin-top: .5rem
+}
+
+.container-profile_image {
+  margin: 0 auto;
 }
 
 .published-ads {
@@ -41,20 +46,60 @@
   color: rgba(247, 36, 36, 0.974);
 }
 
-@media (max-width: 600px) {
-  .card-img__content {
-    justify-content: center;
-    margin: 5rem auto
+@media (max-width: 1200px) {
+  .container-profile_image {
+    width: 100%;
   }
 
-  .published-ads {
-    position: absolute;
-    top: 15rem;
+  .card-img__content {
+    width: 100% !important;
+    margin: 13rem auto;
+    margin-left: 5rem;
   }
 
   .user-name {
     position: absolute;
-    margin-top: 10rem;
+    top: -2.5rem;
+  }
+
+  hr {
+    display: none;
+  }
+
+  .published-ads {
+    position: absolute;
+    top: 12rem;
+  }
+
+  .card-img__content {}
+
+  .single-card {
+    width: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .container-profile_image {
+    width: 100%;
+  }
+
+  .card-img__content {
+    justify-content: center;
+    margin: 5rem auto;
+  }
+
+  .published-ads {
+    position: absolute;
+    top: 14rem;
+  }
+
+  .single-card {
+    width: 100%;
+  }
+
+  .user-name {
+    position: absolute;
+    margin-top: 13.5rem;
     font-size: 21px;
     font-weight: 300 !important;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -68,18 +113,4 @@
 
 .profile-card {
   margin-left: 0px;
-}
-
-@media (max-width:1300px) {
-  .card-img__content {}
-
-  .single-card {
-    width: 50%;
-  }
-}
-
-@media (max-width:600px) {
-  .single-card {
-    width: 100%;
-  }
 }

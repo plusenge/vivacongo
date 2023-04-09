@@ -8,7 +8,7 @@
   position: relative;
 }
 .carousel-control-prev,
-.carousel-control-next {
+.carousel-control-next{
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
