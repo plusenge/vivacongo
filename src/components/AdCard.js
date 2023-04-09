@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
-import { doc, updateDoc, setDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
-import { BsFillHeartFill, BsHeart } from "react-icons/bs";
+import { BsFillHeartFill, BsHeart, BsTrash } from "react-icons/bs";
 import Moment from "react-moment";
 import defaultImage from "../assets/images/no-photo.jpg";
 import useSnapshot from "../utils/useSnapshot";
@@ -12,39 +13,45 @@ import "./AdCard.css";
 const AdCard = (props) => {
   const navigate = useNavigate();
   const [showLoginMessage, setShowLoginMessage] = useState(false);
-
-  const { title, category, subcategory, price, location, city, publishedAt } =props.ad;
+  const { title, category, subcategory, price, location, city, publishedAt, userId } = props.ad;
   const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
-  const { users } = useSnapshot("favorites", props.ad.id)
+  const { users } = useSnapshot("favorites", props.ad.id);
 
-  // Show the login message and redirect to login page
+  const isCurrentUser = auth.currentUser && auth.currentUser.uid === userId;
+
+    console.log(`ID: ${props.id}`);
+  console.log( `USER: ${auth.currentUser}`);
+  
   const toggleFavorite = async () => {
     if (!auth.currentUser) {
       setShowLoginMessage(true);
       setTimeout(() => {
         navigate("/auth/login");
-      }, 1000); // Delay the redirection by 1 seconds
+      }, 1000);
       return;
     }
     const isFav = users.includes(auth.currentUser.uid);
     const favRef = doc(db, "favorites", props.ad.id);
     if (isFav) {
-      // Remove the current user ID from the users array
       const newUsers = users.filter((id) => id !== auth.currentUser.uid);
       await updateDoc(favRef, { users: newUsers });
     } else {
-      // Add the current user ID to the users array
       const newUsers = users.concat(auth.currentUser.uid);
       await setDoc(favRef, { users: newUsers });
     }
   };
 
-  // Extract the date from the publishedAt field
+  const deleteAd = async () => {
+    if (window.confirm("Are you sure you want to delete this ad?")) {
+      await deleteDoc(doc(db, "ads", props.ad.id));
+    }
+  };
+
   let formattedDate = "";
   if (publishedAt) {
-    const date = moment(publishedAt[0]);
+    const date = moment(publishedAt.toDate());
     if (date.isValid()) {
-      formattedDate = date.format("MMMM D, YYYY");
+      formattedDate = date.fromNow();
     }
   }
 
@@ -64,7 +71,7 @@ const AdCard = (props) => {
             style={{ width: "100%", height: "200px" }}
           >
             <img
-              src={defaultImage} // use the default image as the src
+              src={defaultImage}
               alt="No image available"
               className="card-img-top"
               style={{ width: "100%", height: "200px" }}
@@ -83,13 +90,14 @@ const AdCard = (props) => {
               className="heart heart-empty"
               size={23}
               onClick={toggleFavorite}
-              style={{ color: "#209ab5" }}
-              data-bs-toggle="tooltip"
-              data-bs-placement="top"
-              title="Save to favorites"
             />
           )}
         </p>
+        {isCurrentUser && (
+          <p className="delete position-absolute">
+            <BsTrash className="trash" size={20} onClick={deleteAd} />
+          </p>
+        )}
       </div>
       <Link
         to={adLink}
@@ -108,7 +116,7 @@ const AdCard = (props) => {
             style={{ width: "100%", height: "200px" }}
           >
             <img
-              src={defaultImage} // use the default image as the src
+              src={defaultImage}
               alt="No image available"
               className="card-img-top"
               style={{ width: "100%", height: "200px" }}
@@ -156,12 +164,7 @@ const AdCard = (props) => {
           <div className="card-date-container">
             <div>
               <Link to={adLink} className="card-date">
-                <p className="card-text card-date">
-                  <Moment fromNow className="text-sucess">
-                    {props.ad.publishedAt.toDate()}
-                  </Moment>
-                  <br />
-                </p>
+                <p className="card-text card-date">{formattedDate}</p>
               </Link>
             </div>
           </div>
@@ -170,8 +173,5 @@ const AdCard = (props) => {
     </div>
   );
 };
+
 export default AdCard;
-
-
-
-

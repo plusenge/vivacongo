@@ -22,6 +22,7 @@ import moment from "moment";
 import { query, where } from "firebase/firestore";
 import AdCard from "../components/AdCard";
 import "./Profile.css";
+import EditAd from "./EditAd";
 
 const monthAndYear = (date) =>
   `${moment(date).format("MMMM").slice(0, 3)} ${moment(date).format("YYYY")}`;
@@ -272,7 +273,7 @@ const Profile = () => {
             {ads.length ? (
               <h4 className="published-ads mx-3"> Published Ads...</h4>
             ) : (
-              <h4>No ads from this user...</h4>
+              <h4 className="noAdds-from__user position-absolute">No ads from this user...</h4>
             )}
             <div className="row card-img__content">
               {ads.map((ad) => (

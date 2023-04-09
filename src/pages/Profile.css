@@ -46,10 +46,14 @@
   color: rgba(247, 36, 36, 0.974);
 }
 
+
 @media (max-width: 1200px) {
   .container-profile_image {
     width: 100%;
   }
+     .noAdds-from__user {
+      margin-top: 12rem;
+     }
 
   .card-img__content {
     width: 100% !important;

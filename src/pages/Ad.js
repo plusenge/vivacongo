@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { ref, deleteObject } from "firebase/storage";
+
+import { db, storage, auth } from "../firebaseConfig";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FaTrashAlt } from "react-icons/fa";
 import Moment from "react-moment";
 import "../components/AdCard.css";
 import defaultImage from "../assets/images/no-photo.jpg";
 import useSnapshot from "../utils/useSnapshot";
-import fav from "../utils/fav"
+import fav from "../utils/fav";
+
 import "./Ad.css";
 
 const Ad = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [ad, setAd] = useState();
   const [idx, setIdx] = useState(0);
   const [showAllImages, setShowAllImages] = useState(false);
   const [showBelowImages, setShowBelowImages] = useState(true);
-
-
   const { users } = useSnapshot("favorites", id);
 
   const getAd = async () => {
@@ -32,8 +34,34 @@ const Ad = () => {
   useEffect(() => {
     getAd();
   }, []);
-
   console.log(ad);
+
+  //Delete ad function
+  const deleteAd = async () => {
+    const confirm = window.confirm(`Delete ${ad.title}?`);
+    if (confirm && auth.currentUser && auth.currentUser.uid === ad.postedBy) {
+      //delete images
+      for (const image of ad.images) {
+        const imgRef = ref(storage, image.path);
+        await deleteObject(imgRef); // Corrected line
+      }
+      //delete fav doc from firestore
+      await deleteDoc(doc(db, "favorites", id));
+      // delete ad doc from firestore
+      await deleteDoc(doc(db, "ads", id));
+      //navigate to seller profile
+      navigate(`/profile/${auth.currentUser.uid}`);
+    } else {
+      alert("Not authorized to delete this ad");
+    }
+    console.log(`USER: ${auth.currentUser?.uid}`);
+    console.log(`ID: ${ad.postedBy}`);
+  };
+
+  const handleEdit = () => {
+    //navigate to seller edit
+    navigate(`/ads/${id}/edit`);
+  };
 
   const handleViewMore = () => {
     setShowAllImages(!showAllImages);
@@ -119,6 +147,15 @@ const Ad = () => {
                     <h5 className="card-title">
                       ${Number(ad.price).toLocaleString()}
                     </h5>
+                    {/*=============// Delete button =========== */}
+                    {auth.currentUser &&
+                      auth.currentUser.uid === ad.postedBy && (
+                        <FaTrashAlt
+                          size={20}
+                          className="text-danger cursor-pointer"
+                          onClick={deleteAd}
+                        />
+                      )}
                     {/* <AiOutlineHeart size={30} /> */}
                   </div>
                   <h6 className="card-subtitle mb-2">{ad.title}</h6>
@@ -129,9 +166,18 @@ const Ad = () => {
                         <Moment fromNow>{ad.publishedAt.toDate()}</Moment>
                       </small>
                     </p>
-                    
-                    {/*Delete button */}
-                    {/* <FaTrashAlt size={20} className="text-danger" /> */}
+                    {/*=============// Edit button =========== */}
+                    {auth.currentUser &&
+                      auth.currentUser.uid === ad.postedBy && (
+                        <>
+                          <button
+                            className="btn btn-primary"
+                            onClick={handleEdit}
+                          >
+                            Edit
+                          </button>
+                        </>
+                      )}
                   </div>
                 </div>
               </div>
@@ -174,5 +220,3 @@ const Ad = () => {
   ) : null;
 };
 export default Ad;
-
-

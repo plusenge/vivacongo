@@ -113,6 +113,7 @@ const Home = () => {
   useEffect(() => {
     getAds();
   }, [selectedCategory, selectedPrice, selectedSubCategory]);
+
   const handleFavoriteClick = (ad) => {
     if (!user) {
       // redirect to login page if user is not logged in
@@ -129,10 +130,6 @@ const Home = () => {
 
   return (
     <div className="mt-5 container category-container">
-
-
-    
-
       <div
         className="d-flex justify-content-center justify-content-md-between flex-wrap filter-container p-3"
         style={{ backgroundColor: "aliceblue" }}
@@ -218,6 +215,7 @@ const Home = () => {
         </div>
       </div>
       <h4 className="mt-3 mb-0">Recent Listings...</h4>
+      {/*AdCard component pass handleFavoriteClick function*/}
       {ads.length > 0 ? (
         <div className="row">
           {ads.map((ad) => (
