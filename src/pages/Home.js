@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 import Footer from "./Footer";
 import { categories, locations } from "../data/config";
+import Category from "../components/CategorySubcategory";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
