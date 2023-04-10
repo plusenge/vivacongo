@@ -13,42 +13,7 @@ import { AuthContext } from "../context/auth";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Footer from "./Footer";
-import Welcome from "../components/Welcome";
-
-const categories = [
-  {
-    name: "👶 Babies",
-    subcategories: ["Baby Gear", "Toys", "Clothing"],
-  },
-  {
-    name: "🏢 Comm-Equip",
-    subcategories: [
-      "Restaurant",
-      "Services",
-      "Construction",
-    ],
-  },
-  {
-    name: "👗 Fashion",
-    subcategories: ["Clothing", "Shoes", "Accessories"],
-  },
-  {
-    name: "🏠 Property",
-    subcategories: ["For Rent", "For Sale", "Land/Plots"],
-  },
-  {
-    name: "📱 Electronics",
-    subcategories: [
-      "Mobile",
-      "Computers",
-      "TV,Video...",
-    ],
-  },
-  {
-    name: "🚗 Vehicle",
-    subcategories: ["Cars", "Motorcycles", "Other Vehicles"],
-  },
-];
+import { categories, locations } from "../data/config";
 
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -140,7 +105,7 @@ const Home = () => {
   };
 
   return (
-    <div className="mt-5 container category-container">
+    <div className="container category-container">
       <div
         className="d-flex justify-content-center justify-content-md-between flex-wrap filter-container p-3"
         style={{ backgroundColor: "aliceblue" }}

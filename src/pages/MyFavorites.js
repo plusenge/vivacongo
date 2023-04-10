@@ -54,7 +54,6 @@ const MyFavorites = () => {
     <div className={`form-animation__header ${showAnimation ? "animate" : ""}`}>
       <div className="mt-5 container">
         {ads.length ? <h3>Favorite Ads...</h3> : <h3>No Favorite Ads...</h3>}
-
         <div className="row card-img__content">
           {ads.map((ad) => (
             <div
