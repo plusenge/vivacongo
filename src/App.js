@@ -15,6 +15,7 @@ import Sell from "./pages/Sell";
 import MyFavorites from "./pages/MyFavorites";
 import Ad from "./pages/Ad";
 import EditAd from "./pages/EditAd";
+import None from "./components/None"
 const App = () => {
   return (
     <AuthProvider>
@@ -32,8 +33,9 @@ const App = () => {
           <Route path="/auth/reset-password" element={<ResetPassword />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/:category/:id" element={<Ad />} />
-          <Route path="/profile/EditAd/:id" element={<EditAd />} />
+          <Route path="/edit-ad/:id" element={<EditAd />} />
           <Route path="/" element={<Home />} />
+          <Route path="*" element={<None />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

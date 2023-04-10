@@ -51,6 +51,8 @@ const categories = [
 ];
 
 const Home = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [ads, setAds] = useState([]);
   const { user } = useContext(AuthContext);
   const [selectedPrice, setSelectedPrice] = useState("");
@@ -58,11 +60,18 @@ const Home = () => {
   // State variables for the selected category and subcategory
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubcategory] = useState("");
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   // Event handler for selecting a category
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
     setSelectedCategory(selectedCategory);
     setSelectedSubcategory("");
+    //Not found product message only show when filter =0 or search = 0
+      setIsFilterSelected(true);
   };
   // Get the object for the currently selected category
   const selectedCategoryObj = categories.find(
@@ -71,6 +80,8 @@ const Home = () => {
   // Event handler for selecting a subcategory
   const handleSubcategoryClick = (subcategoryName) => {
     setSelectedSubcategory(subcategoryName);
+//Not found product message only show when filter =0 or search = 0
+    setIsFilterSelected(true);
   };
   const handleSortByPrice = (ads) => {
     if (selectedPrice === "high") {
@@ -215,6 +226,7 @@ const Home = () => {
         </div>
       </div>
       <h4 className="mt-3 mb-0">Recent Listings...</h4>
+
       {/*AdCard component pass handleFavoriteClick function*/}
       {ads.length > 0 ? (
         <div className="row">
@@ -225,15 +237,17 @@ const Home = () => {
           ))}
         </div>
       ) : (
-        <div className="p-3 mt-3" style={{ backgroundColor: "#f8d7da" }}>
-          <h5>Sorry, we could not find any results for your search...</h5>
-          <span>Following tips might help you to get better results</span>
-          <ul>
-            <li>Use more general keywords</li>
-            <li>Check spelling of position</li>
-            <li>Reduce filters, use less of them</li>
-          </ul>
-        </div>
+        (searchQuery || isFilterSelected) && (
+          <div className="p-3 mt-3" style={{ backgroundColor: "#f8d7da" }}>
+            <h5>Sorry, we could not find any results for your search...</h5>
+            <span>Following tips might help you to get better results</span>
+            <ul>
+              <li>Use more general keywords</li>
+              <li>Check spelling of position</li>
+              <li>Reduce filters, use less of them</li>
+            </ul>
+          </div>
+        )
       )}
       <Footer />
     </div>

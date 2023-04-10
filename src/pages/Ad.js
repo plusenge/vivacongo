@@ -60,7 +60,7 @@ const Ad = () => {
 
   const handleEdit = () => {
     //navigate to seller edit
-    navigate(`/ads/${id}/edit`);
+    navigate(`/edit-ad/${id}`);
   };
 
   const handleViewMore = () => {

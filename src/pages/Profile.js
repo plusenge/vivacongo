@@ -273,7 +273,9 @@ const Profile = () => {
             {ads.length ? (
               <h4 className="published-ads mx-3"> Published Ads...</h4>
             ) : (
-              <h4 className="noAdds-from__user position-absolute">No ads from this user...</h4>
+              <h4 className="noAdds-from__user position-absolute">
+                No ads from this user...
+              </h4>
             )}
             <div className="row card-img__content">
               {ads.map((ad) => (
