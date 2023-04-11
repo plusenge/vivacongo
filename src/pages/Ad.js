@@ -1,33 +1,42 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
+import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
-
 import { db, storage, auth } from "../firebaseConfig";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-import { FaTrashAlt } from "react-icons/fa";
+import { TbPhoneCalling } from "react-icons/tb";
+import { FaTrashAlt, FaUser } from "react-icons/fa";
+import { HiChatAlt2 } from "react-icons/hi";
 import Moment from "react-moment";
 import "../components/AdCard.css";
 import defaultImage from "../assets/images/no-photo.jpg";
 import useSnapshot from "../utils/useSnapshot";
-import fav from "../utils/fav";
-
 import "./Ad.css";
 
 const Ad = () => {
   const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const [ad, setAd] = useState();
   const [idx, setIdx] = useState(0);
   const [showAllImages, setShowAllImages] = useState(false);
   const [showBelowImages, setShowBelowImages] = useState(true);
   const { users } = useSnapshot("favorites", id);
+  const [seller, setSeller] = useState(false);
+  const [showNumber, setShowNumber] = useState(false);
 
   const getAd = async () => {
     const docRef = doc(db, "ads", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       setAd(docSnap.data());
+
+      const sellerRef = doc(db, "users", docSnap.data().postedBy);
+      const sellerSnap = await getDoc(sellerRef);
+
+      if (sellerSnap.exists()) {
+        setSeller(sellerSnap.data());
+        new SpeechSynthesisUtterance(sellerSnap.data());
+      }
     }
   };
 
@@ -80,8 +89,20 @@ const Ad = () => {
   }
   const mainImage = images[idx] || { url: defaultImage };
 
+  const handleLogin = async () => {
+    // login logic
+    navigate(location.state?.from || "/");
+  };
+  //Is sold ad
+  const updateStatus = async () => {
+    await updateDoc(doc(db, "ads", id), {
+      isOnline: true,
+    });
+    getAd();
+  };
+
   return ad ? (
-    <div>
+    <div style={{ marginTop: "5rem" }}>
       <useSnapshot />
       <div className="mt-5 container">
         <div className="row ">
@@ -180,6 +201,94 @@ const Ad = () => {
                       )}
                   </div>
                 </div>
+              </div>
+              <div className="card mt-3">
+                <div className="card-body">
+                  <h5 className="card-title">Seller Description</h5>
+                  <Link
+                    to={`/profile/${ad.postedBy}`}
+                    className="text-decoration-none text-dark"
+                  >
+                    <div className="d-flex align-items center">
+                      {seller.photoUrl ? (
+                        <img
+                          src={seller.photoUrl}
+                          alt={seller.name}
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            borderRadius: "50%",
+                            marginRight: "10px",
+                          }}
+                        />
+                      ) : (
+                        <FaUser
+                          className="me-2"
+                          style={{
+                            width: "70px",
+                            height: "70px",
+                            borderRadius: "50%",
+                            marginRight: "10px",
+                            backgroundColor: "grey",
+                            fill: "#f0f8ff",
+                            padding: "2px",
+                            border: "solid 5px #f0f8ff",
+                          }}
+                        />
+                      )}
+                      <h6>{seller?.name}</h6>
+                    </div>
+                  </Link>
+                </div>
+                <div>
+                  {auth.currentUser ? (
+                    <div className="d-flex justify-content-around text-center m-auto pb-2 container-chat_showContact">
+                      {ad.postedBy !== auth.currentUser?.uid && (
+                        <button className="btn btn-secondary btn-sm show-contact__chat">
+                          <HiChatAlt2 size={25} /> Chat
+                        </button>
+                      )}
+
+                      {showNumber ? (
+                        <p className="mx-2">{ad.contact}</p>
+                      ) : (
+                        <div className="d-flex justify-content-center">
+                          <hr />
+                          <button
+                            className="btn btn-sm mb-3 show-contact"
+                            onClick={() => setShowNumber(true)}
+                          >
+                            <TbPhoneCalling size={25} /> Show
+                          </button>
+                        </div>
+                      )}
+                      <br />
+                    </div>
+                  ) : (
+                    <p className="text-center login-see_contactInfo">
+                      <Link
+                        to="/auth/login"
+                        state={{ from: location }}
+                        style={{
+                          textDecoration: "none",
+                          fontSize: "18px",
+                          color: "#099ba9",
+                          fontWeight: "400",
+                          padding: "5px",
+                        }}
+                        onClick={handleLogin}
+                      >
+                        Login
+                      </Link>{" "}
+                      to see contact info
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="mt-5 text-center">
+                <button className="btn btn-secondary" onClick={updateStatus}>
+                  Mark as Sold
+                </button>
               </div>
             </div>
           </div>

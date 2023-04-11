@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -13,15 +12,24 @@ import "./AdCard.css";
 const AdCard = (props) => {
   const navigate = useNavigate();
   const [showLoginMessage, setShowLoginMessage] = useState(false);
-  const { title, category, subcategory, price, location, city, publishedAt, userId } = props.ad;
+  const {
+    title,
+    category,
+    subcategory,
+    price,
+    location,
+    city,
+    publishedAt,
+    userId,
+  } = props.ad;
   const adLink = `/${props.ad.category.toLowerCase()}/${props.ad.id}`;
   const { users } = useSnapshot("favorites", props.ad.id);
 
   const isCurrentUser = auth.currentUser && auth.currentUser.uid === userId;
 
-    console.log(`ID: ${props.id}`);
-  console.log( `USER: ${auth.currentUser}`);
-  
+  console.log(`ID: ${props.id}`);
+  console.log(`USER: ${auth.currentUser}`);
+
   const toggleFavorite = async () => {
     if (!auth.currentUser) {
       setShowLoginMessage(true);

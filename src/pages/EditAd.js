@@ -3,9 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebaseConfig";
-import { FaCloudUploadAlt } from "react-icons/fa";
 import { categories, locations } from "../data/config";
-import Animation from "../components/Animation";
 import "./EditAd.css";
 
 const EditAd = () => {
@@ -28,9 +26,9 @@ const EditAd = () => {
     location: "",
     city: "",
     contact: "",
-    description: "",
     price: "",
     images: [],
+    description: "",
   });
   const [imageFiles, setImageFiles] = useState([]);
 
@@ -52,23 +50,23 @@ const EditAd = () => {
     setImageFiles(files);
   };
 
-  const handleRemoveImage = (index, event) => {
-    event.preventDefault();
-    if (index < adData.images.length) {
-      // Remove existing image
-      const imagesCopy = [...adData.images];
-      imagesCopy.splice(index, 1);
-      setAdData((prevState) => ({
-        ...prevState,
-        images: imagesCopy,
-      }));
-    } else {
-      // Remove newly added image
-      const filesCopy = [...imageFiles];
-      filesCopy.splice(index - adData.images.length, 1);
-      setImageFiles(filesCopy);
-    }
-  };
+  // const handleRemoveImage = (index, event) => {
+  //   event.preventDefault();
+  //   if (index < adData.images.length) {
+  //     // Remove existing image
+  //     const imagesCopy = [...adData.images];
+  //     imagesCopy.splice(index, 1);
+  //     setAdData((prevState) => ({
+  //       ...prevState,
+  //       images: imagesCopy,
+  //     }));
+  //   } else {
+  //     // Remove newly added image
+  //     const filesCopy = [...imageFiles];
+  //     filesCopy.splice(index - adData.images.length, 1);
+  //     setImageFiles(filesCopy);
+  //   }
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,11 +101,15 @@ const EditAd = () => {
   };
 
   return (
-    <div className={`container mt-5 form-animation__header ${showAnimation ? "animate" : ""}`}>
+    <div
+      className={`container mt-5 form-animation__header ${
+        showAnimation ? "animate" : ""
+      }`}
+    >
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="images" className="form-label">
-            Images
+            Edit Images
           </label>
           <input
             type="file"
@@ -141,7 +143,7 @@ const EditAd = () => {
 
         <div className="mb-3">
           <label htmlFor="title" className="form-label">
-            Title
+            Edit Title
           </label>
           <input
             type="text"
@@ -153,7 +155,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="category" className="form-label">
-            Category
+            Edit Category
           </label>
           <select
             className="form-select"
@@ -179,7 +181,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="subcategory" className="form-label">
-            Subcategory
+            Edit Subcategory
           </label>
           <select
             className="form-select"
@@ -201,7 +203,7 @@ const EditAd = () => {
 
         <div className="mb-3">
           <label htmlFor="location" className="form-label">
-            Location
+            Edit Location
           </label>
           <select
             className="form-select"
@@ -219,7 +221,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="city" className="form-label">
-            City
+            Edit City
           </label>
           <select
             className="form-select"
@@ -239,7 +241,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="contact" className="form-label">
-            Contact
+            Edit Contact
           </label>
           <input
             type="text"
@@ -251,7 +253,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="price" className="form-label">
-            Price
+            Edit Price
           </label>
           <input
             type="number"
@@ -263,7 +265,7 @@ const EditAd = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="description" className="form-label">
-            Description
+            Edit Description
           </label>
           <textarea
             className="form-control"

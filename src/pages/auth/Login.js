@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,8 @@ import "./Login.css";
 
 const Login = () => {
   const [showAnimation, setShowAnimation] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Delay the animation by 50ms
@@ -27,11 +29,9 @@ const Login = () => {
     loading: false,
     showPassword: false,
   });
-
   const togglePasswordVisibility = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
-  const navigate = useNavigate();
 
   const { email, password, loading, showPassword } = values;
   const [loginErrors, setLoginErrors] = useState({});
@@ -66,17 +66,12 @@ const Login = () => {
     setValues({ ...values, loading: true });
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Logged in successfully");
       setValues({ email: "", password: "", loading: false });
-      navigate("/");
+
       // Welcome message with username
-      const userEmail = userCredential.user.email;
+      const userEmail = auth.currentUser.email;
       const username = userEmail.split("@")[0];
       toast.success(`🎊🎉 ${username}, Welcome back!`, {
         className: "success-toast",
@@ -88,6 +83,9 @@ const Login = () => {
         draggable: true,
         progress: undefined,
       });
+
+      // Redirect to the previous page only if the login is successful
+      navigate(location.state?.from || "/");
     } catch (error) {
       console.error(error);
       if (

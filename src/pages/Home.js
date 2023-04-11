@@ -37,7 +37,7 @@ const Home = () => {
     setSelectedCategory(selectedCategory);
     setSelectedSubcategory("");
     //Not found product message only show when filter =0 or search = 0
-      setIsFilterSelected(true);
+    setIsFilterSelected(true);
   };
   // Get the object for the currently selected category
   const selectedCategoryObj = categories.find(
@@ -46,7 +46,7 @@ const Home = () => {
   // Event handler for selecting a subcategory
   const handleSubcategoryClick = (subcategoryName) => {
     setSelectedSubcategory(subcategoryName);
-//Not found product message only show when filter =0 or search = 0
+    //Not found product message only show when filter =0 or search = 0
     setIsFilterSelected(true);
   };
   const handleSortByPrice = (ads) => {
@@ -120,7 +120,7 @@ const Home = () => {
           >
             <option value="">Latest</option>
             <option value="high">Price High</option>
-            <option value="low">Price</option>
+            <option value="low">Price Low</option>
           </select>
         </div>
 
