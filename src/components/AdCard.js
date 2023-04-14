@@ -4,10 +4,11 @@ import moment from "moment";
 import { doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import { BsFillHeartFill, BsHeart, BsTrash } from "react-icons/bs";
-import Moment from "react-moment";
 import defaultImage from "../assets/images/no-photo.jpg";
 import useSnapshot from "../utils/useSnapshot";
 import "./AdCard.css";
+import Sold from "./Sold";
+import Available from "./Available";
 
 const AdCard = (props) => {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const AdCard = (props) => {
   return (
     <div className="card ad-card ad-card-container">
       <div className="position-relative">
+        {props.ad.isSold && <Sold />} 
         {props.ad.images && props.ad.images[0] && props.ad.images[0].url ? (
           <img
             src={props.ad.images[0].url}

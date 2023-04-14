@@ -11,6 +11,7 @@ import "../components/AdCard.css";
 import defaultImage from "../assets/images/no-photo.jpg";
 import useSnapshot from "../utils/useSnapshot";
 import "./Ad.css";
+import Sold from "../components/Sold";
 
 const Ad = () => {
   const { id } = useParams();
@@ -94,13 +95,14 @@ const Ad = () => {
     navigate(location.state?.from || "/");
   };
   //Is sold ad
+  //Is sold ad
   const updateStatus = async () => {
+    const newValue = !ad.isSold; // Toggle the value of isSold
     await updateDoc(doc(db, "ads", id), {
-      isOnline: true,
+      isSold: newValue,
     });
     getAd();
   };
-
   return ad ? (
     <div style={{ marginTop: "5rem" }}>
       <useSnapshot />
@@ -119,6 +121,7 @@ const Ad = () => {
                   }`}
                   key={i}
                 >
+                  {ad.isSold && <Sold />}
                   <img
                     src={image.url || defaultImage}
                     alt={ad.title}
@@ -285,9 +288,19 @@ const Ad = () => {
                   )}
                 </div>
               </div>
-              <div className="mt-5 text-center">
-                <button className="btn btn-secondary" onClick={updateStatus}>
-                  Mark as Sold
+
+              <div className=" d-flex justify-content-center">
+                <button
+                  className="btn isSold-button btn-secondary text-center btn-sm"
+                  onClick={updateStatus}
+                  style={{
+                    display:
+                      ad.postedBy === auth.currentUser?.uid ? "block" : "none",
+                  }}
+                >
+                  {ad.isSold && ad.postedBy === auth.currentUser?.uid
+                    ? "Still Available"
+                    : "Mark as Sold"}
                 </button>
               </div>
             </div>

@@ -50,6 +50,7 @@ const Profile = () => {
     return () => unsub();
   };
 
+  // {toDate}
   const uploadImage = async (isBackgroundImg) => {
     // create image reference
     const imgRef = ref(

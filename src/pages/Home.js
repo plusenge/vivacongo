@@ -12,11 +12,10 @@ import AdCard from "../components/AdCard";
 import { AuthContext } from "../context/auth";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import Footer from "./Footer";
 import { categories, locations } from "../data/config";
-import Category from "../components/CategorySubcategory";
+import NotFoundSearch from "../components/NotFoundSearch";
 
-const Home = () => {
+const Home = ({ toggleIsSold }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterSelected, setIsFilterSelected] = useState(false);
   const [ads, setAds] = useState([]);
@@ -26,10 +25,7 @@ const Home = () => {
   // State variables for the selected category and subcategory
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubCategory, setSelectedSubcategory] = useState("");
-
-  const handleSearchInputChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  const [showWelcomePage, setShowWelcomePage] = useState(true);
 
   // Event handler for selecting a category
   const handleCategoryChange = (e) => {
@@ -106,117 +102,121 @@ const Home = () => {
   };
 
   return (
-    <div className="container category-container">
-      <div
-        className="d-flex justify-content-center justify-content-md-between flex-wrap filter-container p-3"
-        style={{ backgroundColor: "aliceblue" }}
-      >
-        <div className="sortyBy_price">
-          <h5>Sort By</h5>
-          <select
-            className="form-select sortBy-price__container"
-            onChange={(e) => setSelectedPrice(e.target.value)}
-            value={selectedPrice}
-          >
-            <option value="">Latest</option>
-            <option value="high">Price High</option>
-            <option value="low">Price Low</option>
-          </select>
-        </div>
+    <>
+      <div className="container category-container">
+        <div
+          className="d-flex justify-content-center justify-content-md-between flex-wrap filter-container p-3"
+          style={{ backgroundColor: "aliceblue" }}
+        >
+          <div className="sortyBy_price">
+            <h5>Sort By</h5>
+            <select
+              className="form-select sortBy-price__container"
+              onChange={(e) => setSelectedPrice(e.target.value)}
+              value={selectedPrice}
+            >
+              <option value="">Latest</option>
+              <option value="high">Price High</option>
+              <option value="low">Price Low</option>
+            </select>
+          </div>
 
-        <div className="d-flex justify-content-center justify-content-md-between flex-wrap ">
-          <div>
-            <div className="filter-container">
-              <h5 className="filter-bycategory__title" FilterByCategory>
-                Filter By Category
-              </h5>
-              <select
-                className="form-select filter-input__category"
-                value={selectedCategory}
-                onChange={handleCategoryChange}
-              >
-                <option value="">All</option>
-                {categories.map((category, index) => (
-                  <option key={index} value={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {selectedCategoryObj && (
-              <div className="subcategory-container">
-                <h6 className="mt-3 display-category__name">
-                  {selectedCategoryObj.name}
-                </h6>
-                <ul className="subcategory-list">
-                  {selectedCategoryObj.subcategories.map(
-                    (subcategory, index) => (
-                      <li
-                        key={index}
-                        className={`subcategory ${
-                          subcategory === selectedSubCategory ? "active" : ""
-                        }`}
-                        onClick={() => handleSubcategoryClick(subcategory)}
-                      >
-                        {subcategory}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
-            )}
-            {selectedSubCategory && (
-              <div className="category-list">
-                <p
-                  className="category active"
-                  onClick={() => setSelectedSubcategory("")}
+          <div className="d-flex justify-content-center justify-content-md-between flex-wrap ">
+            <div>
+              <div className="filter-container">
+                <h5 className="filter-bycategory__title" FilterByCategory>
+                  Filter By Category
+                </h5>
+                <select
+                  className="form-select filter-input__category"
+                  value={selectedCategory}
+                  onChange={handleCategoryChange}
                 >
-                  {selectedSubCategory} <i className="bi bi-x"></i>
-                </p>
+                  <option value="">All</option>
+                  {categories.map((category, index) => (
+                    <option key={index} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+              {selectedCategoryObj && (
+                <div className="subcategory-container">
+                  <h6 className="mt-3 display-category__name">
+                    {selectedCategoryObj.name}
+                  </h6>
+                  <ul className="subcategory-list">
+                    {selectedCategoryObj.subcategories.map(
+                      (subcategory, index) => (
+                        <li
+                          key={index}
+                          className={`subcategory ${
+                            subcategory === selectedSubCategory ? "active" : ""
+                          }`}
+                          onClick={() => handleSubcategoryClick(subcategory)}
+                        >
+                          {subcategory}
+                        </li>
+                      )
+                    )}
+                  </ul>
+                </div>
+              )}
+              {selectedSubCategory && (
+                <div className="category-list">
+                  <p
+                    className="category active"
+                    onClick={() => setSelectedSubcategory("")}
+                  >
+                    {selectedSubCategory} <i className="bi bi-x"></i>
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {selectedPrice || selectedCategory || selectedSubCategory ? (
+              <div className="remove-all-container">
+                <button
+                  className="btn remove-all_filter"
+                  onClick={handleRemoveAllClick}
+                >
+                  <span className="text-danger mx-1 fs-5">x</span>Remove All
+                </button>
+              </div>
+            ) : (
+              <div></div>
             )}
           </div>
-
-          {selectedPrice || selectedCategory || selectedSubCategory ? (
-            <div className="remove-all-container">
-              <button
-                className="btn remove-all_filter"
-                onClick={handleRemoveAllClick}
-              >
-                <span className="text-danger mx-1 fs-5">X</span>Remove All
-              </button>
-            </div>
-          ) : (
-            <div></div>
-          )}
         </div>
-      </div>
-      <h4 className="mt-3 mb-0">Recent Listings...</h4>
+        <h4 className="mt-3 mb-0">Recent Listings...</h4>
 
-      {/*AdCard component pass handleFavoriteClick function*/}
-      {ads.length > 0 ? (
-        <div className="row">
-          {ads.map((ad) => (
-            <div className="col-sm-6 col-md-4 col-xl-3 mb-3" key={ad.id}>
-              <AdCard ad={ad} onFavoriteClick={handleFavoriteClick} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        (searchQuery || isFilterSelected) && (
-          <div className="p-3 mt-3" style={{ backgroundColor: "#f8d7da" }}>
-            <h5>Sorry, we could not find any results for your search...</h5>
-            <span>Following tips might help you to get better results</span>
-            <ul>
-              <li>Use more general keywords</li>
-              <li>Check spelling of position</li>
-              <li>Reduce filters, use less of them</li>
-            </ul>
+        {/*AdCard component pass handleFavoriteClick function*/}
+        {ads.length > 0 ? (
+          <div className="row">
+            {ads.map((ad) => (
+              <div className="col-sm-6 col-md-4 col-xl-3 mb-3" key={ad.id}>
+                <AdCard
+                  ad={ad}
+                  onFavoriteClick={handleFavoriteClick}
+                  key={ad.id}
+                  id={ad.id}
+                  title={ad.title}
+                  price={ad.price}
+                  location={ad.location}
+                  images={ad.images}
+                  isSold={ad.isSold}
+                  toggleIsSold={toggleIsSold}
+                />
+              </div>
+            ))}
           </div>
-        )
-      )}
-      <Footer />
-    </div>
+        ) : (
+            (searchQuery || isFilterSelected) && (
+              <NotFoundSearch/>
+          )
+        )}
+      </div>
+    </>
   );
 };
 export default Home;

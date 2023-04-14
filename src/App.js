@@ -15,7 +15,7 @@ import Sell from "./pages/Sell";
 import MyFavorites from "./pages/MyFavorites";
 import Ad from "./pages/Ad";
 import EditAd from "./pages/EditAd";
-import None from "./components/None"
+import None from "./components/None";
 const App = () => {
   return (
     <AuthProvider>
