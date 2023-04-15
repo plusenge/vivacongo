@@ -27,8 +27,8 @@
 }
 
 .small-image img {
-  width: 90px;
-  height: 80px;
+  width: 100px;
+  height: 90px;
   object-fit: cover;
   border: 2px solid #c6c3c3f7;
   border-radius: 7px;
@@ -83,15 +83,14 @@
   margin-top: 6rem !important;
 }
 .show-contact__chat {
-  border: solid 1px #4ec1db;
+  border: solid 1px #0084ff;
   background-color: #f9f9f9;
-  color: #0890ae;
+  color: #007bee;
   padding: 12px;
   border-radius: 50px;
-
 }
 .show-contact__chat:hover{
-  background-color: #4ec1db;
+  background-color: #0084ff;
   border: none;
 }
 .show-contact {
@@ -121,23 +120,22 @@
     justify-content: center;
     align-items:center;
     text-align: center;
-  }
- }
-    @media (max-width:600px) {
-      .container-chat_showContact {
-        flex-direction: row;
-      }
     }
- @media (max-width:1020px){
+  }
   .seller-description {
       flex-direction: column;
-    }
  }
-
- @media (max-width:600px) {
-.card-text-water__mark::after {
+@media (max-width:600px) {
+  .card-text-water__mark::after {
     bottom: 40%;
     font-size: 35px;
     opacity: .12;
   }
- }
+  .container-chat_showContact {
+    flex-direction: row;
+  }
+  .small-image img {
+    width: 80px;
+    height: 70px;
+  }
+}

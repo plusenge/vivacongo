@@ -5,6 +5,8 @@ import { AuthContext } from "../context/auth";
 import { auth, db } from "../firebaseConfig";
 import React, { useContext, useState, useEffect } from "react";
 import { MdAddCircle } from "react-icons/md";
+import { BsMessenger } from "react-icons/bs";
+
 import "./Navbar.css";
 
 const Navbar = () => {
@@ -48,7 +50,7 @@ const Navbar = () => {
   };
   return (
     <div>
-      <nav className="navbar navbar-expand-md bg-light navbar-light fixed-top shadow-sm ">
+      <nav className="navbar navbar-expand-md bg-light navbar-light fixed-top shadow-sm toggle-menu__container ">
         <div className="container">
           <Link className="navbar-brand fw-bold" to="/">
             <span className="logo-viva">Viva</span>
@@ -65,17 +67,23 @@ const Navbar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className="collapse navbar-collapse p-2"
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               {user ? (
                 <>
                   <li className="nav-item userImageNavBar">
                     {user && (
-                      <div className="d-flex align-items-center">
+                      <div className="d-flex align-items-center toggle-menu__img-container">
                         <span className=" me-2 userGreet">
                           Hey {userName}!{" "}
                         </span>
-                        <Link to={`/profile/${user.uid}`}>
+                        <Link
+                          to={`/profile/${user.uid}`}
+                          className="toggle-menu__img"
+                        >
                           <img
                             src={
                               userImage ||
@@ -92,10 +100,13 @@ const Navbar = () => {
                     <Link className="nav-link" to={`/profile/${user.uid}`}>
                       Profile
                     </Link>
+                    <Link className="nav-link" to={`/chat/${user.uid}`}>
+                      <BsMessenger size={25} fill={"#0084ff"} /> Message
+                    </Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link " to={`/sell`}>
-                      <MdAddCircle size={30} fill={"#55c2da"} />
+                      {/* <MdAddCircle size={30} fill={"#55c2da"} /> */}
                       Sell
                     </Link>
                   </li>
@@ -106,7 +117,7 @@ const Navbar = () => {
                   </li>
                   <li className="nav-item">
                     <button
-                      className="btn btn-sm px-3 text-light btn-logout bg-danger mx-2"
+                      className="btn btn-sm px-3 text-light btn-logout mx-2"
                       onClick={handleSignout}
                     >
                       Log Out

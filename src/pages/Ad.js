@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
-import { doc, getDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { db, storage, auth } from "../firebaseConfig";
 import { TbPhoneCalling } from "react-icons/tb";
@@ -95,13 +95,29 @@ const Ad = () => {
     // login logic
     navigate(location.state?.from || "/");
   };
+
   // Is sold ad
   const updateStatus = async () => {
-    const newValue = !ad.isSold; // Toggle the value of isSold
+    // Toggle the value of isSold
+    const newValue = !ad.isSold;
     await updateDoc(doc(db, "ads", id), {
       isSold: newValue,
     });
     getAd();
+  };
+
+  const createChatroom = async () => {
+    const loggedInUser = auth.currentUser.uid;
+    //Combinations of ids(ad,seller,buyer)
+    const id =
+      loggedInUser > ad.postedBy
+        ? `${loggedInUser}.${ad.postedBy}.${ad.id}`
+        : `${ad.postedBy}.${loggedInUser}.${ad.id}`;
+    await setDoc(doc(db, "messages", id), {
+      ad: ad.id,
+      users: [loggedInUser, ad.postedBy],
+    });
+    navigate("/chat", { state: { ad } });
   };
 
   return ad ? (
