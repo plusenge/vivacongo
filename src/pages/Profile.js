@@ -22,7 +22,6 @@ import moment from "moment";
 import { query, where } from "firebase/firestore";
 import AdCard from "../components/AdCard";
 import "./Profile.css";
-import EditAd from "./EditAd";
 
 const monthAndYear = (date) =>
   `${moment(date).format("MMMM").slice(0, 3)} ${moment(date).format("YYYY")}`;
@@ -42,7 +41,6 @@ const Profile = () => {
   const [img, setImg] = useState("");
   const [backgroundImg, setBackgroundImg] = useState("");
   const [ads, setAds] = useState([]);
-  const [backgroundColor, setBackgroundColor] = useState("#0000");
   const getUser = async () => {
     const unsub = onSnapshot(doc(db, "users", id), (querySnapshot) =>
       setUser(querySnapshot.data())
@@ -130,6 +128,7 @@ const Profile = () => {
   }, [img, backgroundImg]);
   //console log the ads
   console.log(ads);
+  
   return user ? (
     <div className={`form-animation__header ${showAnimation ? "animate" : ""}`}>
       <div className="big-container__card row mt-5 container">

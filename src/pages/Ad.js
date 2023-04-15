@@ -24,6 +24,7 @@ const Ad = () => {
   const { users } = useSnapshot("favorites", id);
   const [seller, setSeller] = useState(false);
   const [showNumber, setShowNumber] = useState(false);
+  const [isSold, setIsSold] = useState(ad?.isSold || false);
 
   const getAd = async () => {
     const docRef = doc(db, "ads", id);
@@ -94,8 +95,7 @@ const Ad = () => {
     // login logic
     navigate(location.state?.from || "/");
   };
-  //Is sold ad
-  //Is sold ad
+  // Is sold ad
   const updateStatus = async () => {
     const newValue = !ad.isSold; // Toggle the value of isSold
     await updateDoc(doc(db, "ads", id), {
@@ -103,6 +103,7 @@ const Ad = () => {
     });
     getAd();
   };
+
   return ad ? (
     <div style={{ marginTop: "5rem" }}>
       <useSnapshot />
@@ -110,58 +111,81 @@ const Ad = () => {
         <div className="row ">
           <div
             id="carousselDetail"
-            className=" carousel slide col-md-8 d-flex flex-md-row flex-column justify-content-between"
+            className="carousel slide col-md-8 d-flex flex-md-row flex-column justify-content-between"
             style={{ width: "80%", margin: "0 auto" }}
           >
-            <div className="carousel-inner " style={{ height: "410px" }}>
-              {images.map((image, i) => (
-                <div
-                  className={`carousel-item card-text-water__mark ${
-                    idx === i ? "active" : ""
-                  }`}
-                  key={i}
-                >
-                  {ad.isSold && <Sold />}
-                  <img
-                    src={image.url || defaultImage}
-                    alt={ad.title}
-                    className="d-block w-100"
-                    style={{
-                      width: "100%",
-                      height: "400px",
-                      objectFit: "cover",
-                      transition: "opacity 0.5s ease-in-out",
-                    }}
-                  />
-
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carousselDetail"
-                    data-bs-slide="prev"
-                    onClick={() => setIdx(i)}
+            <div className="container-images__slider">
+              <div className="carousel-inner " style={{ height: "410px" }}>
+                {images.map((image, i) => (
+                  <div
+                    className={`carousel-item card-text-water__mark ${
+                      idx === i ? "active" : ""
+                    }`}
+                    key={i}
                   >
-                    <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carousselDetail"
-                    data-bs-slide="next"
-                    onClick={() => setIdx(i)}
-                  >
-                    <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Next</span>
-                  </button>
+                    {/*=======sold component========*/}
+                    {ad.isSold && <Sold />}
+                    <img
+                      src={image.url || defaultImage}
+                      alt={ad.title}
+                      className="d-block w-100"
+                      style={{
+                        width: "100%",
+                        height: "400px",
+                        objectFit: "cover",
+                        transition: "opacity 0.5s ease-in-out",
+                      }}
+                    />
+                    <button
+                      className="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#carousselDetail"
+                      data-bs-slide="prev"
+                      onClick={() => setIdx(i)}
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next"
+                      type="button"
+                      data-bs-target="#carousselDetail"
+                      data-bs-slide="next"
+                      onClick={() => setIdx(i)}
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                ))}
+              </div>
+              {showBelowImages && (
+                <div className="small-images-container position-relative ">
+                  {ad.images.slice(0, 8).map((image, i) => (
+                    <div
+                      className={`small-image ${idx === i ? "active" : ""}`}
+                      key={i}
+                      onClick={() => setIdx(i)}
+                    >
+                      <img src={image.url} alt={ad.title} />
+                    </div>
+                  ))}
+                  {ad.images.length > 8 && !showAllImages && (
+                    <div
+                      className="small-image view-more"
+                      onClick={handleViewMore}
+                    >
+                      <span>View More</span>
+                    </div>
+                  )}
                 </div>
-              ))}
+              )}
             </div>
 
             <div className="col-md-4 mx-md-4 card-container__content">
@@ -305,28 +329,6 @@ const Ad = () => {
               </div>
             </div>
           </div>
-
-          {showBelowImages && (
-            <div
-              className="mb-2 small-images-container "
-              style={{ width: "80%", margin: "0 auto" }}
-            >
-              {ad.images.slice(0, 8).map((image, i) => (
-                <div
-                  className={`small-image ${idx === i ? "active" : ""}`}
-                  key={i}
-                  onClick={() => setIdx(i)}
-                >
-                  <img src={image.url} alt={ad.title} />
-                </div>
-              ))}
-              {ad.images.length > 8 && !showAllImages && (
-                <div className="small-image view-more" onClick={handleViewMore}>
-                  <span>View More</span>
-                </div>
-              )}
-            </div>
-          )}
         </div>
         <div
           className="mt-5 container-carousselDetail"

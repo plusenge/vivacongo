@@ -145,6 +145,7 @@ const Home = ({ toggleIsSold }) => {
                   <h6 className="mt-3 display-category__name">
                     {selectedCategoryObj.name}
                   </h6>
+
                   <ul className="subcategory-list">
                     {selectedCategoryObj.subcategories.map(
                       (subcategory, index) => (
@@ -177,7 +178,7 @@ const Home = ({ toggleIsSold }) => {
             {selectedPrice || selectedCategory || selectedSubCategory ? (
               <div className="remove-all-container">
                 <button
-                  className="btn remove-all_filter"
+                  className=" btn remove-all_filter"
                   onClick={handleRemoveAllClick}
                 >
                   <span className="text-danger mx-1 fs-5">x</span>Remove All
@@ -211,9 +212,7 @@ const Home = ({ toggleIsSold }) => {
             ))}
           </div>
         ) : (
-            (searchQuery || isFilterSelected) && (
-              <NotFoundSearch/>
-          )
+          (searchQuery || isFilterSelected) && <NotFoundSearch />
         )}
       </div>
     </>

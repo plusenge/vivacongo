@@ -110,6 +110,11 @@
   padding: 0.5rem 1rem 2rem !important;
 }
 
+.container-images__slider{
+  width: 100%;
+  margin: 0 auto;
+}
+
  @media (max-width:1020px) {
   .container-chat_showContact{
     flex-direction: column;
